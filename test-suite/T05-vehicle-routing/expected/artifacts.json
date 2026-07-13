@@ -1,6 +1,0 @@
-{
-  "ecore": "model/vehicle-routing.ecore",
-  "xmi": "model/input/model/model.xmi",
-  "henshin": "model/vehicle-routing.henshin",
-  "momot": "src/at/ac/tuwien/big/momot/examples/vehiclerouting/VehicleRoutingSearch.momot"
-}

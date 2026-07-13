@@ -1,9 +1,0 @@
-{
-  "reference_front": [
-    { "RouteLength": 120.0, "SolutionLength": 5 },
-    { "RouteLength": 150.0, "SolutionLength": 3 },
-    { "RouteLength": 200.0, "SolutionLength": 2 },
-    { "RouteLength": 300.0, "SolutionLength": 1 }
-  ],
-  "epsilon": 0.1
-}
