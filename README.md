@@ -98,16 +98,73 @@ The MCP server connects via stdio JSON-RPC transport and translates LLM agent to
 
 ---
 
-## 🗺️ Cold-Start Bootstrap & Replication Branch (`cold-start-bootstrap`)
+## 🗺️ Cold-Start Bootstrap & Replication Guide (`cold-start-bootstrap` branch)
 
-For academic replication and to demonstrate the workbench's autonomous capabilities under a cold-start bootstrap scenario (as described in our paper), we provide a dedicated branch with **all pre-existing reference files, models, and benchmarks removed**:
+This branch contains **no pre-existing data or reference files**. It is designed specifically for academic replication of the cold-start bootstrap scenario (as described in our paper) where all modeling artifacts are synthesized completely from scratch using natural language.
 
+---
+
+### 🚀 Autonomous Replication Procedure
+
+You can instruct any LLM agent (e.g., Claude, Gemini) connected to this workspace via MCP to execute the reproduction steps below. No local Java, EMF, or Python are required, as all setups and validations automatically run on Docker.
+
+#### Step 1: Start the Docker Headless Runner & MCP Server
+Before launching the agent, make sure the Docker headless runner and the MCP stdio server are running:
 ```bash
-# Switch to the clean, data-free cold-start branch
-git checkout cold-start-bootstrap
+# 1. Start the headless resting runner
+docker build -t momot-headless -f Dockerfile.headless .
+docker run --rm -p 8080:8080 momot-headless
+
+# 2. Start the MCP server (on stdio)
+cd mcp
+npm install
+node server.js
 ```
 
-On this branch, you can instruct any LLM agent (e.g., Claude, Gemini) to start the MCP server, and let the coordinated sub-agents synthesize the entire set of required files (`.ecore`, `.xmi`, `.henshin`, and `.momot`) completely from scratch using only natural language descriptions of the Class-Responsibility Assignment (CRA) domain. All synthesized files will be compiled and executed via Docker.
+#### Step 2: Ingest the Domain Natural Language Specifications
+
+Provide the following natural language specifications to the **Coordinator Agent** (or let individual agents synthesize them sequentially) to bootstrap the Class-Responsibility Assignment (CRA) workbench:
+
+##### 1. Ecore Metamodel (Gate 1)
+Synthesize `benchmark/model/cra.ecore` using these requirements:
+- **ClassModel (Root Container):** Represents the system. Has a required `name` (EString) attribute and containment references to `classes` [0..*] and `features` [0..*].
+- **Class:** Represents a class. Has a required `name` (EString) and a bi-directional non-containment reference `encapsulates` [1..*] pointing to Feature (opposite: `isEncapsulatedBy`).
+- **Feature (Abstract):** Superclass of attributes and methods. Has a required `name` (EString) and a bi-directional non-containment reference `isEncapsulatedBy` [0..1] pointing to Class (opposite: `encapsulates`).
+- **Attribute (extends Feature):** A structural data field.
+- **Method (extends Feature):** An executable behavioral element with non-containment references `dataAccess` [0..*] pointing to Attributes, and `methodCall` [0..*] pointing to other Methods.
+
+##### 2. Initial Model Instance (Gate 2)
+Synthesize `benchmark/model/cra_input.xmi` conforming to `cra.ecore`:
+- **Attributes:** A1, A2, A3, A4, A5 (all initially unassigned).
+- **Methods:** M1, M2, M3, M4 (all initially unassigned).
+- **Dependencies (Coupling):**
+  - Method **M1** accesses Attribute **A1** and Attribute **A2**.
+  - Method **M2** accesses Attribute **A2** and Attribute **A3**.
+  - Method **M3** accesses Attribute **A3** and Attribute **A4**.
+  - Method **M4** accesses Attribute **A4** and Attribute **A5**.
+  - Method **M1** calls Method **M2**.
+  - Method **M2** calls Method **M3**.
+  - Method **M3** calls Method **M4**.
+
+##### 3. Henshin Mutation Rules (Gate 3)
+Synthesize `benchmark/model/cra.henshin` with the following mutation rules:
+- **`createClass`**: Creates a new Class and assigns an unassigned Feature to it. Has a NAC preventing matching if the Feature is already encapsulated.
+- **`deleteClass`**: Deletes an empty Class (a Class with no encapsulated features).
+- **`assignFeature`**: Moves a Feature from one Class to another, or assigns an unassigned Feature to it.
+
+##### 4. MOMoT Script & OCL Objectives (Gate 4)
+Synthesize `benchmark/src/cra_solve.momot` to configure the NSGA-II algorithm:
+- **Configuration:** NSGA-II with population size 200, max evaluations 50,000, and a solution sequence horizon of 12 steps.
+- **Objectives:**
+  - **Maximize CRA Index:** Sum of cohesion of all classes minus the sum of coupling between distinct classes.
+    - **Cohesion:** Sum of dataAccesses and methodCalls between features inside a class, normalized by dividing by $|F_c| \times (|F_c| - 1)$ (with a guard returning 0.0 if $|F_c| \le 1$).
+    - **Coupling:** Sum of dataAccesses and methodCalls between features in distinct classes, normalized by dividing by $2 \times |F_{c1}| \times |F_{c2}|$.
+  - **Minimize Solution Length:** Minimize the transformation sequence path.
+
+#### Step 3: Run Validation & Execution
+Once the files are synthesized, let the coordinator validate each artifact (Tier 1 structure, semantic, and apply dry-run) and launch the MOMoT execution (Tier 2). At the end of the run, the coordinator will parse the final Pareto front (Tier 3) demonstrating convergence to the global optimum of **CRA Index = +0.85** with exactly 3 classes.
+
+---
 
 ---
 
