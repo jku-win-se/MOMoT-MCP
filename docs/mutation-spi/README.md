@@ -1,6 +1,6 @@
 # Mutation Operator SPI & EMF.cloud Split
 
-> **Status:** Phase 0 scaffolding complete (branch `feat/mutation-operator-spi`).  
+> **Status:** Phase 1 complete (branch `feat/mutation-operator-spi`).  
 > See [STATUS.md](STATUS.md). **Do not** treat this as implemented — core search still uses Henshin directly.
 
 This folder is the **single source of truth** for decoupling MOMoT from Henshin and preparing EMF.cloud integration.

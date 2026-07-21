@@ -47,6 +47,7 @@
       <unit id="org.apache.commons.commons-logging" version="0.0.0"/>
       <unit id="org.apache.commons.lang3" version="0.0.0"/>
       <unit id="org.junit" version="0.0.0"/>
+      <unit id="org.hamcrest" version="0.0.0"/>
       <unit id="org.apache.log4j" version="0.0.0"/>
       <unit id="org.hamcrest.core" version="0.0.0"/>
       <unit id="io.github.classgraph.classgraph" version="0.0.0"/>

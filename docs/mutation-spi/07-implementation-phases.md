@@ -16,11 +16,11 @@ Execute in order. Do not skip parity gates.
 
 ## Phase 1 — SPI types + Henshin adapter (behavior behind facade)
 
-1. Flesh out SPI types (remove `UnsupportedOperationException` stubs).
-2. Implement `HenshinMutationEngine` by wrapping existing `ModuleManager` / apply logic.
-3. Add unit tests: listOperators + tryApply on T01 artifacts.
-4. Register backend `henshin` in `MutationEngineRegistry`.
-5. **Do not** switch search orchestration yet — optional dead-code path OK for tests.
+- [x] 1. Flesh out SPI types (remove `UnsupportedOperationException` stubs).
+- [x] 2. Implement `HenshinMutationEngine` by wrapping existing `ModuleManager` / apply logic.
+- [x] 3. Add unit tests: listOperators + tryApply on T01 artifacts.
+- [x] 4. Register backend `henshin` in `MutationEngineRegistry`.
+- [x] 5. **Do not** switch search orchestration yet — optional dead-code path OK for tests.
 
 **Exit:** Adapter tests green; production search still old path.
 

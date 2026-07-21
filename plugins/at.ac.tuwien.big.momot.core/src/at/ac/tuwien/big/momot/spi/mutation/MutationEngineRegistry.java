@@ -16,6 +16,11 @@ public final class MutationEngineRegistry {
 
    private final Map<String, MutationEngineFactory> factories = new ConcurrentHashMap<>();
 
+   private MutationEngineRegistry() {
+      register(MutationBackendId.HENSHIN, at.ac.tuwien.big.momot.spi.mutation.henshin.HenshinMutationEngine::new);
+      register(MutationBackendId.STUB, StubMutationEngine::new);
+   }
+
    public static MutationEngineRegistry getInstance() {
       return INSTANCE;
    }
@@ -52,8 +57,10 @@ public final class MutationEngineRegistry {
       return engine;
    }
 
-   /** Test helper — clears registrations. */
-   public void clear() {
-      factories.clear();
-   }
+    /** Test helper — clears registrations and restores default backends. */
+    public void clear() {
+       factories.clear();
+       register(MutationBackendId.HENSHIN, at.ac.tuwien.big.momot.spi.mutation.henshin.HenshinMutationEngine::new);
+       register(MutationBackendId.STUB, StubMutationEngine::new);
+    }
 }

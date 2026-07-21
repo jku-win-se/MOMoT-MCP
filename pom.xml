@@ -22,9 +22,7 @@
 		<module>headless</module>
 		<module>features</module>
 		<module>releng</module>
-		<!--
 		<module>tests</module>
-		-->
 		<module>tooling/at.ac.tuwien.big.momot.tooling</module>
 	</modules>
 	
@@ -282,22 +280,6 @@
 							<autoStart>true</autoStart>
 						</bundle>
 					</bundleStartLevel>
-					<dependencies>
-						<dependency>
-							<type>p2-installable-unit</type>
-							<artifactId>org.eclipse.equinox.ds</artifactId>
-						</dependency>
-						<dependency>
-							<type>p2-installable-unit</type>
-							<artifactId>org.eclipse.equinox.event</artifactId>
-						</dependency>
-						<dependency>
-      						<groupId>junit</groupId>
-    						<artifactId>junit</artifactId>
-      						<version>4.11</version>
-      						<scope>test</scope>
-    					</dependency>
-					</dependencies>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -308,11 +290,6 @@
 					<includePackedArtifacts>true</includePackedArtifacts>
 					<targetDefinitionIncludeSource>honor</targetDefinitionIncludeSource>
 					<environments>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86</arch>
-						</environment>
 						<environment>
 							<os>win32</os>
 							<ws>win32</ws>
