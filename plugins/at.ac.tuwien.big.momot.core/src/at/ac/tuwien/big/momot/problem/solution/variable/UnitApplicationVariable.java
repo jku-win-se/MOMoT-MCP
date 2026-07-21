@@ -24,22 +24,19 @@ public class UnitApplicationVariable extends UnitApplicationImpl implements IUni
       super(engine, graph, unit, assignment);
    }
 
-   public UnitApplicationVariable(final ITransformationVariable variable) {
+   public UnitApplicationVariable(final UnitApplicationVariable variable) {
       this(variable.getEngine(), variable.getEGraph(), variable.getUnit(),
             new AssignmentImpl(variable.getAssignment(), false));
    }
 
-   @Override
-   public int compareTo(final ITransformationVariable other) {
-      return new Integer(this.hashCode()).compareTo(other.hashCode());
+   public int compareTo(final UnitApplicationVariable other) {
+      return Integer.compare(this.hashCode(), other.hashCode());
    }
 
-   @Override
-   public ITransformationVariable copy() {
+   public UnitApplicationVariable copy() {
       return new UnitApplicationVariable(this);
    }
 
-   @Override
    public boolean execute() {
       return execute(null);
    }
@@ -50,7 +47,6 @@ public class UnitApplicationVariable extends UnitApplicationImpl implements IUni
       return isExecuted;
    }
 
-   @Override
    public boolean execute(final boolean reexecute) {
       if(isExecuted && !reexecute) {
          return isExecuted;
@@ -58,7 +54,6 @@ public class UnitApplicationVariable extends UnitApplicationImpl implements IUni
       return execute();
    }
 
-   @Override
    public Engine getEngine() {
       return engine;
    }
@@ -75,7 +70,6 @@ public class UnitApplicationVariable extends UnitApplicationImpl implements IUni
       return param;
    }
 
-   @Override
    public Object getParameterValue(final Parameter parameter) {
       if(assignment == null) {
          return null;
@@ -90,22 +84,18 @@ public class UnitApplicationVariable extends UnitApplicationImpl implements IUni
       return assignment.getParameterValue(parameter);
    }
 
-   @Override
    public <T> T getParameterValue(final Parameter parameter, final Class<T> valueClass) {
       return CastUtil.asClass(getParameterValue(parameter), valueClass);
    }
 
-   @Override
    public Object getParameterValue(final String parameterName) {
       return getParameterValue(getParameter(parameterName));
    }
 
-   @Override
    public <T> T getParameterValue(final String parameterName, final Class<T> valueClass) {
       return CastUtil.asClass(getParameterValue(parameterName), valueClass);
    }
 
-   @Override
    public Object getResultParameterValue(final Parameter parameter) {
       if(parameter == null) {
          throw new RuntimeException("Null parameter.");
@@ -120,32 +110,26 @@ public class UnitApplicationVariable extends UnitApplicationImpl implements IUni
       return resultAssignment.getParameterValue(parameter);
    }
 
-   @Override
    public <T> T getResultParameterValue(final Parameter parameter, final Class<T> valueClass) {
       return CastUtil.asClass(getResultParameterValue(parameter.getName()), valueClass);
    }
 
-   @Override
    public Object getResultParameterValue(final String parameterName) {
       return getResultParameterValue(getParameter(parameterName));
    }
 
-   @Override
    public <T> T getResultParameterValue(final String parameterName, final Class<T> resultClass) {
       return getResultParameterValue(getParameter(parameterName), resultClass);
    }
 
-   @Override
    public boolean isExecuted() {
       return isExecuted;
    }
 
-   @Override
    public boolean isUndone() {
       return isUndone;
    }
 
-   @Override
    public void randomize() {
       throw new IllegalAccessError("Should not be called. Is taken care of by an IPopulationGenerator.");
    }
@@ -157,7 +141,6 @@ public class UnitApplicationVariable extends UnitApplicationImpl implements IUni
       return redo;
    }
 
-   @Override
    public void setParameterValue(final Parameter parameter, final Object value) {
       if(parameter == null) {
          throw new RuntimeException("Null parameter.");
@@ -173,7 +156,6 @@ public class UnitApplicationVariable extends UnitApplicationImpl implements IUni
       assignment.setParameterValue(parameter, value);
    }
 
-   @Override
    public void setParameterValue(final String paramName, final Object value) {
       setParameterValue(getParameter(paramName), value);
    }

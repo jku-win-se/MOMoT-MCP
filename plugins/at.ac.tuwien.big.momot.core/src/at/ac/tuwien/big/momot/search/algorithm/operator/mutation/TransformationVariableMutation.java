@@ -36,7 +36,7 @@ public class TransformationVariableMutation extends AbstractTransformationMutati
       final EGraph result = subMutant.execute();
       final ITransformationVariable variable = getSearchHelper().findUnitApplication(result);
       if(variable != null) {
-         mutant.setVariable(randomReplace, variable);
+         mutant.setVariable(randomPosition, variable);
       }
       return mutant;
    }

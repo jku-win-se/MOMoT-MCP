@@ -26,11 +26,11 @@ Execute in order. Do not skip parity gates.
 
 ## Phase 2 — Retarget search engine to SPI
 
-1. Introduce `OperatorApplicationVariable` (MOEA `Variable`).
-2. Retarget `SearchHelper`, mutation operators, `TransformationSolution`.
-3. Wire orchestration to `MutationEngineRegistry` (default `henshin`).
-4. Remove Henshin extends from public `ITransformationVariable`.
-5. Allowlist Henshin imports (see [04-engine-retargeting.md](04-engine-retargeting.md)).
+- [x] 1. Introduce `OperatorApplicationVariable` (MOEA `Variable`).
+- [x] 2. Retarget `SearchHelper`, mutation operators, `TransformationSolution`.
+- [x] 3. Wire orchestration to `MutationEngineRegistry` (default `henshin`).
+- [x] 4. Remove Henshin extends from public `ITransformationVariable`.
+- [x] 5. Allowlist Henshin imports (see [04-engine-retargeting.md](04-engine-retargeting.md)).
 
 **Exit:** `test-suite` T01–T04 all tiers pass with no intentional behavior change.
 

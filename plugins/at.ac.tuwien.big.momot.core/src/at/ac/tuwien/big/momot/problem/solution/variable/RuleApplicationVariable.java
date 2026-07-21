@@ -26,22 +26,18 @@ public class RuleApplicationVariable extends RuleApplicationImpl implements IRul
             new AssignmentImpl(variable.getAssignment(), false));
    }
 
-   @Override
-   public int compareTo(final ITransformationVariable other) {
-      return new Integer(this.hashCode()).compareTo(other.hashCode());
+   public int compareTo(final RuleApplicationVariable other) {
+      return Integer.compare(this.hashCode(), other.hashCode());
    }
 
-   @Override
-   public ITransformationVariable copy() {
+   public RuleApplicationVariable copy() {
       return new RuleApplicationVariable(this);
    }
 
-   @Override
    public boolean execute() {
       return execute(true);
    }
 
-   @Override
    public boolean execute(final boolean reexecute) {
       if(isExecuted && !reexecute) {
          return isExecuted;
@@ -53,7 +49,6 @@ public class RuleApplicationVariable extends RuleApplicationImpl implements IRul
       return change;
    }
 
-   @Override
    public Engine getEngine() {
       return engine;
    }
@@ -70,7 +65,6 @@ public class RuleApplicationVariable extends RuleApplicationImpl implements IRul
       return param;
    }
 
-   @Override
    public Object getParameterValue(final Parameter parameter) {
       if(partialMatch == null) {
          return null;
@@ -85,22 +79,18 @@ public class RuleApplicationVariable extends RuleApplicationImpl implements IRul
       return partialMatch.getParameterValue(parameter);
    }
 
-   @Override
    public <T> T getParameterValue(final Parameter parameter, final Class<T> valueClass) {
       return CastUtil.asClass(getParameterValue(parameter), valueClass);
    }
 
-   @Override
    public Object getParameterValue(final String parameterName) {
       return getParameterValue(getParameter(parameterName));
    }
 
-   @Override
    public <T> T getParameterValue(final String parameterName, final Class<T> valueClass) {
       return CastUtil.asClass(getParameterValue(parameterName), valueClass);
    }
 
-   @Override
    public Object getResultParameterValue(final Parameter parameter) {
       if(parameter == null) {
          throw new RuntimeException("Null parameter.");
@@ -115,37 +105,30 @@ public class RuleApplicationVariable extends RuleApplicationImpl implements IRul
       return resultMatch.getParameterValue(parameter);
    }
 
-   @Override
    public <T> T getResultParameterValue(final Parameter parameter, final Class<T> valueClass) {
       return CastUtil.asClass(getResultParameterValue(parameter.getName()), valueClass);
    }
 
-   @Override
    public Object getResultParameterValue(final String parameterName) {
       return getResultParameterValue(getParameter(parameterName));
    }
 
-   @Override
    public <T> T getResultParameterValue(final String parameterName, final Class<T> resultClass) {
       return getResultParameterValue(getParameter(parameterName), resultClass);
    }
 
-   @Override
    public boolean isExecuted() {
       return isExecuted;
    }
 
-   @Override
    public boolean isUndone() {
       return isUndone;
    }
 
-   @Override
    public void randomize() {
       throw new IllegalAccessError("Should not be called. Is taken care of by an IPopulationGenerator.");
    }
 
-   @Override
    public void setParameterValue(final Parameter parameter, final Object value) {
       if(parameter == null) {
          throw new RuntimeException("Null parameter.");
@@ -163,7 +146,6 @@ public class RuleApplicationVariable extends RuleApplicationImpl implements IRul
       isCompleteMatchDerived = false;
    }
 
-   @Override
    public void setParameterValue(final String paramName, final Object value) {
       setParameterValue(getParameter(paramName), value);
    }

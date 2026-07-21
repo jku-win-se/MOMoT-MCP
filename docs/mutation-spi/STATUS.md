@@ -3,8 +3,8 @@
 | Field | Value |
 |---|---|
 | Branch | `feat/mutation-operator-spi` |
-| Phase completed | **1 — Henshin adapter implementation** |
-| Next phase | **2 — Retarget search engine to SPI** |
+| Phase completed | **2 — Retarget search engine to SPI** |
+| Next phase | **2.1 — Cleanup** |
 | Production search path | Still Henshin-direct (unchanged) |
 | Agent prompt | `agents/prompts/mutation-spi-implement.prompt.md` |
 
