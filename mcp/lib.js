@@ -74,6 +74,7 @@ export async function executeMomotJob(input) {
       : `Execution failed with exit code ${parsed.exitCode}.`,
     logTail: parsed.logTail,
     outputs: parsed.outputs,
+    responseZip: runResult.responseZip,
     diagnostics: {
       ...diagnostics,
       requestUrl: runResult.requestUrl,

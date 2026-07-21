@@ -113,7 +113,12 @@ public class TransformationSearchOrchestration extends AbstractSearchOrchestrati
                Collections.emptyList(),
                null
          );
-         return registry.createAndLoad(config);
+         final MutationOperatorEngine engine = registry.create(config.getBackendId());
+         if (engine instanceof at.ac.tuwien.big.momot.spi.mutation.henshin.HenshinMutationEngine) {
+            ((at.ac.tuwien.big.momot.spi.mutation.henshin.HenshinMutationEngine) engine).setModuleManager(getModuleManager());
+         }
+         engine.load(config);
+         return engine;
       } catch (final Exception e) {
          throw new RuntimeException("Failed to create MutationOperatorEngine", e);
       }

@@ -52,6 +52,10 @@ public final class HenshinMutationEngine implements MutationOperatorEngine {
    private Engine engine;
    private List<MutationOperator> operators;
 
+   public void setModuleManager(final ModuleManager moduleManager) {
+      this.moduleManager = moduleManager;
+   }
+
    @Override
    public String backendId() {
       return MutationBackendId.HENSHIN;
@@ -60,14 +64,20 @@ public final class HenshinMutationEngine implements MutationOperatorEngine {
    @Override
    public void load(final MutationEngineConfig config) throws MutationEngineException {
       try {
-         this.moduleManager = new ModuleManager();
-         if (config.getBaseDirectory() != null) {
-            moduleManager.setBaseDir(config.getBaseDirectory());
-            registerEcores(config.getBaseDirectory(), moduleManager.getResourceSet());
-         }
+         if (this.moduleManager == null) {
+            this.moduleManager = new ModuleManager();
+            if (config.getBaseDirectory() != null) {
+               moduleManager.setBaseDir(config.getBaseDirectory());
+               registerEcores(config.getBaseDirectory(), moduleManager.getResourceSet());
+            }
 
-         for (final String modulePath : config.getModulePaths()) {
-            moduleManager.addModule(modulePath);
+            for (final String modulePath : config.getModulePaths()) {
+               moduleManager.addModule(modulePath);
+            }
+         } else {
+            if (moduleManager.getBaseDir() != null) {
+               registerEcores(moduleManager.getBaseDir(), moduleManager.getResourceSet());
+            }
          }
 
          this.engine = new MomotEngine(false);

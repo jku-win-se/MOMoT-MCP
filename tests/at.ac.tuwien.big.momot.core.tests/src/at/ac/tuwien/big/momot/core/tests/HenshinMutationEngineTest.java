@@ -3,6 +3,7 @@ package at.ac.tuwien.big.momot.core.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import at.ac.tuwien.big.momot.spi.mutation.ApplyResult;
@@ -176,6 +177,59 @@ public class HenshinMutationEngineTest {
       final OperatorApplication gene = new OperatorApplication("stack::Stack::shiftLeft", bindings, false);
       final ApplyResult result = engine.tryApply(model, gene);
       assertFalse(result.isSuccess());
+      engine.close();
+   }
+
+   @Test
+   public void testModuleManagerConfigPreserved() throws Exception {
+      final at.ac.tuwien.big.momot.ModuleManager moduleManager = new at.ac.tuwien.big.momot.ModuleManager();
+      moduleManager.setBaseDir(baseDir.getAbsolutePath());
+      moduleManager.addModule("model/stack.henshin");
+
+      // Verify that createStack and connectStacks are present initially
+      assertNotNull(moduleManager.getUnit("stack::Stack::createStack"));
+      assertNotNull(moduleManager.getUnit("stack::Stack::connectStacks"));
+
+      // Ignore createStack and connectStacks
+      moduleManager.removeUnit("stack::Stack::createStack");
+      moduleManager.removeUnit("stack::Stack::connectStacks");
+
+      // Set parameter value generator for shiftLeft::amount to FixValue(42)
+      final org.eclipse.emf.henshin.model.Unit shiftLeft = moduleManager.getUnit("stack::Stack::shiftLeft");
+      final org.eclipse.emf.henshin.model.Parameter amountParam = shiftLeft.getParameter("amount");
+      moduleManager.setParameterValue(amountParam, new at.ac.tuwien.big.momot.problem.unit.parameter.fix.FixValue<>(42));
+
+      final MutationEngineRegistry registry = MutationEngineRegistry.getInstance();
+      final MutationEngineConfig config = new MutationEngineConfig(
+            MutationBackendId.HENSHIN,
+            baseDir.getAbsolutePath(),
+            Collections.singletonList("model/stack.henshin"),
+            Collections.emptyList(),
+            null);
+
+      final HenshinMutationEngine engine = (HenshinMutationEngine) registry.create(config.getBackendId());
+      engine.setModuleManager(moduleManager);
+      engine.load(config);
+
+      final List<MutationOperator> ops = engine.listOperators();
+      
+      // Asserts that createStack and connectStacks are ignored and not listed
+      for (final MutationOperator op : ops) {
+         assertNotEquals("stack::Stack::createStack", op.getId());
+         assertNotEquals("stack::Stack::connectStacks", op.getId());
+      }
+
+      // Asserts that shiftLeft amount parameter is sampled as 42 per the FixValue config!
+      MutationOperator shiftLeftOp = null;
+      for (final MutationOperator op : ops) {
+         if ("stack::Stack::shiftLeft".equals(op.getId())) {
+            shiftLeftOp = op;
+         }
+      }
+      assertNotNull(shiftLeftOp);
+      final ParameterBinding sampled = engine.sampleParameters(shiftLeftOp, new Random());
+      assertEquals(42, sampled.get("amount"));
+
       engine.close();
    }
 }
