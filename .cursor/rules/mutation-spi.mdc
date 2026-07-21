@@ -1,0 +1,32 @@
+---
+description: Mutation Operator SPI epic — decoupling Henshin; EMF.cloud split
+globs:
+  - docs/mutation-spi/**
+  - **/spi/mutation/**
+  - agents/prompts/mutation-spi-implement.prompt.md
+alwaysApply: false
+---
+
+# Mutation Operator SPI
+
+When working under `docs/mutation-spi/` or `at.ac.tuwien.big.momot.spi.mutation`:
+
+## Decisions (do not reopen without user ask)
+
+1. TS cloud surface + separate evolutionary engine service.
+2. Language-agnostic SPI; Henshin is an adapter.
+3. Phased delivery; parity on test-suite before second backend.
+
+## Rules
+
+- Prefer implementing the **declared phase** only (`docs/mutation-spi/07-implementation-phases.md`).
+- Keep SPI free of `org.eclipse.emf.henshin` types.
+- Preserve Henshin search semantics when wrapping existing code.
+- Do not push NSGA evaluate loops through Model Server.
+- Update contract docs if you change SPI signatures.
+
+## Pointers
+
+- Contract: `docs/mutation-spi/02-spi-contract.md`
+- Henshin plan: `docs/mutation-spi/03-henshin-adapter-plan.md`
+- Agent prompt: `agents/prompts/mutation-spi-implement.prompt.md`
