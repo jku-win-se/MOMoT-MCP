@@ -1,7 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { executeMomotJob } from './mcp/lib.js';
+import { fileURLToPath } from 'node:url';
+import { executeMomotJob } from '../mcp/lib.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Helper to walk a directory recursively and gather all files
 function walk(dir) {
@@ -35,7 +38,8 @@ function loadFolder(folderPath, relativeTo) {
 }
 
 function runHenshinValidator(args) {
-  const res = spawnSync('node', ['tools/henshin-validator/validate.mjs', ...args], { stdio: 'pipe', encoding: 'utf-8' });
+  const validatorPath = path.resolve(__dirname, '../tools/henshin-validator/validate.mjs');
+  const res = spawnSync('node', [validatorPath, ...args], { stdio: 'pipe', encoding: 'utf-8' });
   if (res.status !== 0) {
     console.error(`Henshin validator failed with status ${res.status}`);
     console.error(`stdout:\n${res.stdout}`);
@@ -45,12 +49,12 @@ function runHenshinValidator(args) {
   return true;
 }
 
-async function runBenchmark(name, folder, momotPath, validatorArgs) {
+async function runBenchmark(name, folderName, momotPath, validatorArgs) {
   console.log(`\n==================================================`);
   console.log(`E2E Benchmark: ${name}`);
   console.log(`==================================================`);
 
-  const benchmarkDir = path.resolve(folder);
+  const benchmarkDir = path.resolve(__dirname, folderName);
 
   // ----------------------------------------
   // TIER 1: Henshin Validation
@@ -153,11 +157,12 @@ async function main() {
   try {
     // Structure and setup henshin-validator
     console.log('Setting up HenshinValidator...');
-    spawnSync('node', ['tools/henshin-validator/validate.mjs', '--setup'], { stdio: 'inherit' });
+    const setupValidatorPath = path.resolve(__dirname, '../tools/henshin-validator/validate.mjs');
+    spawnSync('node', [setupValidatorPath, '--setup'], { stdio: 'inherit' });
 
     await runBenchmark(
       'T01-stack-balancing',
-      'test-suite/T01-stack-balancing',
+      'T01-stack-balancing',
       'src/at/ac/tuwien/big/momot/examples/stack/StackSearchExample.momot',
       [
         ['--validate-structure', 'test-suite/T01-stack-balancing/model/stack.henshin'],
@@ -168,7 +173,7 @@ async function main() {
 
     await runBenchmark(
       'T02-cra',
-      'test-suite/T02-cra',
+      'T02-cra',
       'src/at/ac/tuwien/big/momot/examples/cra/CRASearchExample.momot',
       [
         ['--validate-structure', 'test-suite/T02-cra/model/cra.henshin'],
@@ -179,7 +184,7 @@ async function main() {
 
     await runBenchmark(
       'T03-tree-depth',
-      'test-suite/T03-tree-depth',
+      'T03-tree-depth',
       'src/at/ac/tuwien/big/momot/examples/tree/TreeSearchExample.momot',
       [
         ['--validate-structure', 'test-suite/T03-tree-depth/model/tree.henshin'],
@@ -190,7 +195,7 @@ async function main() {
 
     await runBenchmark(
       'T04-task-scheduling',
-      'test-suite/T04-task-scheduling',
+      'T04-task-scheduling',
       'src/at/ac/tuwien/big/momot/examples/schedule/ScheduleSearchExample.momot',
       [
         ['--validate-structure', 'test-suite/T04-task-scheduling/model/schedule.henshin'],

@@ -29,3 +29,8 @@ fitness {
 
 ## Solution Length
 The search algorithm decides how many rules to apply (the solution length). Each rule application is a "gene" in the chromosome.
+
+---
+
+## Pluggable Mutation Operator SPI
+Since MOMoT 2.0, rules and operators are decoupled from Henshin types and consumed through the **Mutation Operator SPI** via the pluggable `MutationOperatorEngine`. Henshin remains the default, high-performance execution adapter under the hood, but other search backends (e.g. Stub, Epsilon) can be registered seamlessly.

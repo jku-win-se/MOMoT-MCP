@@ -50,3 +50,8 @@ transformations = {
 - Every import resolves in the headless runtime classpath.
 - Every module path is present in zip and readable.
 - Module rules are compatible with the uploaded model instance.
+
+---
+
+## Pluggable Search Backend (SPI)
+MOMoT 2.0 uses a pluggable **Mutation Operator SPI** under the hood. The modules listed in the `transformations` block are loaded and executed abstractly via `MutationOperatorEngine`. Henshin is the default backend adapter, but alternative backends can be dynamically registered in `MutationEngineRegistry` (such as the proof-of-concept `stub` engine).

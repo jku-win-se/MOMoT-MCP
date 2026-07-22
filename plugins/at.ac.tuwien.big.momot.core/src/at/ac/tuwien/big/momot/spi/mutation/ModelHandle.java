@@ -17,8 +17,9 @@ public interface ModelHandle {
    ModelHandle copy();
 
    /**
-    * Escape hatch for transitional code (e.g. today's {@code EGraph}-based fitness).
+    * @deprecated Escape hatch for transitional code (e.g. today's {@code EGraph}-based fitness).
     * Prefer eliminating unwrap callers in Phase 2.1.
     */
+   @Deprecated
    Object unwrap();
 }
