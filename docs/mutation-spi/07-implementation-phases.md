@@ -40,6 +40,7 @@ Execute in order. Do not skip parity gates.
 - [x] 2. Deprecate transitional `unwrap()` fitness path or narrow it.
 - [x] 3. Update henshin wiki notes: “rules consume via SPI”.
 - [x] 4. Update `docs/03-imports-and-henshin-modules.md` for optional `backend`.
+- [x] 5. Document complete Henshin import allowlist (`10-import-allowlist.md`).
 
 **Exit:** Import allowlist clean; docs updated.
 

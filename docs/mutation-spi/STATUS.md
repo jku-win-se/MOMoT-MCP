@@ -4,7 +4,7 @@
 |---|---|
 | Branch | `feat/mutation-operator-spi` |
 | Phase completed | **2.1 — Cleanup** |
-| Next phase | **3 — DSL / protocol niceties (or stop for PR)** |
+| Next phase | **Stop for PR** (Phase 3+ optional follow-ups) |
 | Production search path | SPI-retargeted (Henshin adapter) |
 | Agent prompt | `agents/prompts/mutation-spi-implement.prompt.md` |
 

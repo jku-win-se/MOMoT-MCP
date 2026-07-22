@@ -28,15 +28,16 @@ This folder is the **single source of truth** for decoupling MOMoT from Henshin 
 | [09-agent-checklist.md](09-agent-checklist.md) | Copy-paste checklist for implementing agents |
 | [10-import-allowlist.md](10-import-allowlist.md) | Comprehensive allowlist of Henshin imports in core plugin |
 
-## Code scaffolding
+## Code
 
-Java SPI contracts live under:
+Java SPI contracts and the Henshin adapter live under:
 
 ```
 plugins/at.ac.tuwien.big.momot.core/src/at/ac/tuwien/big/momot/spi/mutation/
+plugins/at.ac.tuwien.big.momot.core/src/at/ac/tuwien/big/momot/spi/mutation/henshin/
 ```
 
-They are **documented stubs** (no search wiring). See `package-info.java` in that package.
+Phase 2 retargeted the search engine onto `MutationOperatorEngine`; Henshin is the default registered adapter. See [STATUS.md](STATUS.md).
 
 ## Agent entry point
 
