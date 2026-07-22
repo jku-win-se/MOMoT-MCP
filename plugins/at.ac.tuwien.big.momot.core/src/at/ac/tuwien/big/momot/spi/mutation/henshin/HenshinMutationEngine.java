@@ -2,8 +2,6 @@ package at.ac.tuwien.big.momot.spi.mutation.henshin;
 
 import at.ac.tuwien.big.moea.util.CastUtil;
 import at.ac.tuwien.big.momot.ModuleManager;
-import at.ac.tuwien.big.momot.problem.solution.variable.RuleApplicationVariable;
-import at.ac.tuwien.big.momot.problem.solution.variable.UnitApplicationVariable;
 import at.ac.tuwien.big.momot.search.engine.MomotEngine;
 import at.ac.tuwien.big.momot.spi.mutation.ApplyResult;
 import at.ac.tuwien.big.momot.spi.mutation.ModelHandle;

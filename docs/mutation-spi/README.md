@@ -26,6 +26,7 @@ This folder is the **single source of truth** for decoupling MOMoT from Henshin 
 | [07-implementation-phases.md](07-implementation-phases.md) | Ordered work packages + exit criteria |
 | [08-acceptance-criteria.md](08-acceptance-criteria.md) | Definition of done per phase |
 | [09-agent-checklist.md](09-agent-checklist.md) | Copy-paste checklist for implementing agents |
+| [10-import-allowlist.md](10-import-allowlist.md) | Comprehensive allowlist of Henshin imports in core plugin |
 
 ## Code scaffolding
 

@@ -18,7 +18,7 @@ import at.ac.tuwien.big.momot.lang.momot.ObjectivesCommand
 import at.ac.tuwien.big.momot.lang.momot.SaveAnalysisCommand
 import at.ac.tuwien.big.momot.lang.momot.SearchOrchestration
 import at.ac.tuwien.big.momot.lang.momot.SolutionsCommand
-import at.ac.tuwien.big.momot.problem.solution.variable.UnitApplicationVariable
+import at.ac.tuwien.big.momot.spi.mutation.henshin.UnitApplicationVariable
 import at.ac.tuwien.big.momot.search.engine.MomotEngine
 import com.google.inject.Inject
 import java.util.ArrayList

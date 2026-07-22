@@ -36,10 +36,10 @@ Execute in order. Do not skip parity gates.
 
 ## Phase 2.1 — Cleanup
 
-1. Move leftover Henshin-only types into adapter package.
-2. Deprecate transitional `unwrap()` fitness path or narrow it.
-3. Update henshin wiki notes: “rules consume via SPI”.
-4. Update `docs/03-imports-and-henshin-modules.md` for optional `backend`.
+- [x] 1. Move leftover Henshin-only types into adapter package.
+- [x] 2. Deprecate transitional `unwrap()` fitness path or narrow it.
+- [x] 3. Update henshin wiki notes: “rules consume via SPI”.
+- [x] 4. Update `docs/03-imports-and-henshin-modules.md` for optional `backend`.
 
 **Exit:** Import allowlist clean; docs updated.
 

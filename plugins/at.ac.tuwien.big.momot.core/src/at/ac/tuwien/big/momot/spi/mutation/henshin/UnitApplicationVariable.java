@@ -1,52 +1,62 @@
-package at.ac.tuwien.big.momot.problem.solution.variable;
+package at.ac.tuwien.big.momot.spi.mutation.henshin;
 
 import at.ac.tuwien.big.moea.util.CastUtil;
 
+import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.Assignment;
-import org.eclipse.emf.henshin.interpreter.Change;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.impl.AssignmentImpl;
-import org.eclipse.emf.henshin.interpreter.impl.MatchImpl;
-import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
+import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
 
-public class RuleApplicationVariable extends RuleApplicationImpl implements IRuleApplicationVariable {
+/**
+ * Internal Henshin adapter unit application variable implementation.
+ * @deprecated For internal adapter use only.
+ */
+@Deprecated
+public class UnitApplicationVariable extends UnitApplicationImpl {
+   private static final long serialVersionUID = 67960898574321022L;
 
-   private static final long serialVersionUID = 5601540634156998449L;
+   protected boolean isExecuted;
+   protected boolean isUndone;
 
-   public RuleApplicationVariable(final Engine engine, final EGraph graph, final Rule rule,
-         final Assignment partialMatch) {
-      super(engine, graph, rule, partialMatch);
+   public UnitApplicationVariable(final Engine engine, final EGraph graph, final Unit unit,
+         final Assignment assignment) {
+      super(engine, graph, unit, assignment);
    }
 
-   public RuleApplicationVariable(final RuleApplicationVariable variable) {
-      this(variable.getEngine(), variable.getEGraph(), variable.getRule(),
+   public UnitApplicationVariable(final UnitApplicationVariable variable) {
+      this(variable.getEngine(), variable.getEGraph(), variable.getUnit(),
             new AssignmentImpl(variable.getAssignment(), false));
    }
 
-   public int compareTo(final RuleApplicationVariable other) {
+   public int compareTo(final UnitApplicationVariable other) {
       return Integer.compare(this.hashCode(), other.hashCode());
    }
 
-   public RuleApplicationVariable copy() {
-      return new RuleApplicationVariable(this);
+   public UnitApplicationVariable copy() {
+      return new UnitApplicationVariable(this);
    }
 
    public boolean execute() {
-      return execute(true);
+      return execute(null);
+   }
+
+   @Override
+   public boolean execute(final ApplicationMonitor monitor) {
+      isExecuted = super.execute(monitor);
+      return isExecuted;
    }
 
    public boolean execute(final boolean reexecute) {
       if(isExecuted && !reexecute) {
          return isExecuted;
       }
-      return execute(null);
-   }
-
-   public Change getChange() {
-      return change;
+      return execute();
    }
 
    public Engine getEngine() {
@@ -66,7 +76,7 @@ public class RuleApplicationVariable extends RuleApplicationImpl implements IRul
    }
 
    public Object getParameterValue(final Parameter parameter) {
-      if(partialMatch == null) {
+      if(assignment == null) {
          return null;
       }
       if(parameter == null) {
@@ -76,7 +86,7 @@ public class RuleApplicationVariable extends RuleApplicationImpl implements IRul
          throw new RuntimeException("Parameter unit invalid.");
       }
 
-      return partialMatch.getParameterValue(parameter);
+      return assignment.getParameterValue(parameter);
    }
 
    public <T> T getParameterValue(final Parameter parameter, final Class<T> valueClass) {
@@ -98,11 +108,11 @@ public class RuleApplicationVariable extends RuleApplicationImpl implements IRul
       if(parameter.getUnit() != unit) {
          throw new RuntimeException("Incorrect parameter unit.");
       }
-      if(resultMatch == null) {
+      if(resultAssignment == null) {
          return null;
       }
 
-      return resultMatch.getParameterValue(parameter);
+      return resultAssignment.getParameterValue(parameter);
    }
 
    public <T> T getResultParameterValue(final Parameter parameter, final Class<T> valueClass) {
@@ -129,6 +139,13 @@ public class RuleApplicationVariable extends RuleApplicationImpl implements IRul
       throw new IllegalAccessError("Should not be called. Is taken care of by an IPopulationGenerator.");
    }
 
+   @Override
+   public boolean redo(final ApplicationMonitor monitor) {
+      final boolean redo = super.redo(monitor);
+      isExecuted = isExecuted || redo;
+      return redo;
+   }
+
    public void setParameterValue(final Parameter parameter, final Object value) {
       if(parameter == null) {
          throw new RuntimeException("Null parameter.");
@@ -137,13 +154,11 @@ public class RuleApplicationVariable extends RuleApplicationImpl implements IRul
          throw new RuntimeException("Parameter unit invalid.");
       }
 
-      if(partialMatch == null) {
-         partialMatch = new MatchImpl((Rule) unit);
+      if(assignment == null) {
+         assignment = new AssignmentImpl(unit);
       }
 
-      partialMatch.setParameterValue(parameter, value);
-      completeMatch = null;
-      isCompleteMatchDerived = false;
+      assignment.setParameterValue(parameter, value);
    }
 
    public void setParameterValue(final String paramName, final Object value) {
@@ -153,5 +168,30 @@ public class RuleApplicationVariable extends RuleApplicationImpl implements IRul
    @Override
    public String toString() {
       return getAssignment().toString();
+   }
+
+   @Override
+   public boolean undo(ApplicationMonitor monitor) {
+      if(appliedRules.isEmpty()) {
+         return true;
+      }
+
+      if(monitor == null) {
+         monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
+      }
+      isUndone = true;
+      while(!appliedRules.isEmpty()) {
+         final RuleApplication ruleApplication = appliedRules.pop();
+         try {
+            if(!ruleApplication.undo(monitor)) {
+               isUndone = false;
+               break;
+            }
+         } catch(final Exception e) {
+         }
+         undoneRules.push(ruleApplication);
+      }
+      monitor.notifyUndo(this, isUndone);
+      return isUndone;
    }
 }

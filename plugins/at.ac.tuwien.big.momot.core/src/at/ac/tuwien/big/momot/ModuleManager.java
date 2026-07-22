@@ -2,7 +2,7 @@ package at.ac.tuwien.big.momot;
 
 import at.ac.tuwien.big.moea.util.CastUtil;
 import at.ac.tuwien.big.moea.util.TextUtil;
-import at.ac.tuwien.big.momot.problem.solution.variable.RuleApplicationVariable;
+import at.ac.tuwien.big.momot.spi.mutation.henshin.RuleApplicationVariable;
 import at.ac.tuwien.big.momot.problem.unit.parameter.IParameterValue;
 import at.ac.tuwien.big.momot.problem.unit.parameter.increment.IncrementalStringValue;
 import at.ac.tuwien.big.momot.problem.unit.parameter.random.RandomDoubleValue;
