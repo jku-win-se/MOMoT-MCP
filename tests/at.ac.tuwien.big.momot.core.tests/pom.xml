@@ -32,6 +32,7 @@
 					<includes>
 	 					<include>at/ac/tuwien/big/momot/core/tests/suite/AllTests.class</include>
 	 					<include>at/ac/tuwien/big/momot/core/tests/ModuleLoadingTest.class</include>
+	 					<include>at/ac/tuwien/big/momot/core/tests/HenshinMutationEngineTest.class</include>
 				 	</includes>
 				</configuration>
 			</plugin>

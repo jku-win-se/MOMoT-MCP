@@ -11,6 +11,15 @@
   - [Validation Runbook](08-validation-and-runbook.md)
   - [Minimal Stack Case Study](09-minimal-test-case.md)
 
+- **Mutation SPI**
+  - [SPI Index](mutation-spi/README.md)
+  - [Goals & Non-Goals](mutation-spi/00-goals-and-non-goals.md)
+  - [Target Architecture](mutation-spi/01-target-architecture.md)
+  - [SPI Contract](mutation-spi/02-spi-contract.md)
+  - [Implementation Phases](mutation-spi/07-implementation-phases.md)
+  - [Agent Checklist](mutation-spi/09-agent-checklist.md)
+  - [Import Allowlist](mutation-spi/10-import-allowlist.md)
+
 - **Ecore Metamodeling**
   - [Ecore Overview](ecore/00-overview.md)
   - [Class Patterns](ecore/01-class-patterns.md)

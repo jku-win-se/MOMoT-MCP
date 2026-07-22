@@ -1,15 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2015 Vienna University of Technology.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Martin Fleck (Vienna University of Technology) - initial API and implementation
- *
- * Initially developed in the context of ARTIST EU project www.artist-project.eu
- *******************************************************************************/
 package at.ac.tuwien.big.momot;
 
 import at.ac.tuwien.big.moea.AbstractSearchOrchestration;
@@ -25,8 +13,13 @@ import at.ac.tuwien.big.momot.search.fitness.EGraphMultiDimensionalFitnessFuncti
 import at.ac.tuwien.big.momot.search.fitness.IEGraphMultiDimensionalFitnessFunction;
 import at.ac.tuwien.big.momot.search.solution.executor.SearchHelper;
 import at.ac.tuwien.big.momot.search.solution.generator.TransformationSolutionGenerator;
+import at.ac.tuwien.big.momot.spi.mutation.MutationBackendId;
+import at.ac.tuwien.big.momot.spi.mutation.MutationEngineConfig;
+import at.ac.tuwien.big.momot.spi.mutation.MutationEngineRegistry;
+import at.ac.tuwien.big.momot.spi.mutation.MutationOperatorEngine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.henshin.interpreter.EGraph;
@@ -50,6 +43,7 @@ public class TransformationSearchOrchestration extends AbstractSearchOrchestrati
    protected List<String> globalJavaImports = new ArrayList<>();
    protected MomotEngine engine;
 
+   protected transient MutationOperatorEngine mutationEngine;
    private IEObjectEqualityHelper equalityHelper;
 
    public TransformationSearchOrchestration() {
@@ -89,6 +83,45 @@ public class TransformationSearchOrchestration extends AbstractSearchOrchestrati
       this(henshinOrchestration);
       setProblemGraph(problemGraphUri);
       setSolutionLength(solutionLength);
+   }
+
+   public MutationOperatorEngine getMutationEngine() {
+      if (mutationEngine == null) {
+         mutationEngine = createMutationEngine();
+      }
+      return mutationEngine;
+   }
+
+   public void setMutationEngine(final MutationOperatorEngine mutationEngine) {
+      this.mutationEngine = mutationEngine;
+   }
+
+   protected MutationOperatorEngine createMutationEngine() {
+      try {
+         final MutationEngineRegistry registry = MutationEngineRegistry.getInstance();
+         final List<String> modulePaths = new ArrayList<>();
+         for (final org.eclipse.emf.henshin.model.Module module : getModuleManager().getModules()) {
+            if (module.eResource() != null) {
+               modulePaths.add(module.eResource().getURI().toString());
+            }
+         }
+
+         final MutationEngineConfig config = new MutationEngineConfig(
+               MutationBackendId.HENSHIN,
+               getModuleManager().getBaseDir(),
+               modulePaths,
+               Collections.emptyList(),
+               null
+         );
+         final MutationOperatorEngine engine = registry.create(config.getBackendId());
+         if (engine instanceof at.ac.tuwien.big.momot.spi.mutation.henshin.HenshinMutationEngine) {
+            ((at.ac.tuwien.big.momot.spi.mutation.henshin.HenshinMutationEngine) engine).setModuleManager(getModuleManager());
+         }
+         engine.load(config);
+         return engine;
+      } catch (final Exception e) {
+         throw new RuntimeException("Failed to create MutationOperatorEngine", e);
+      }
    }
 
    public void addGlobalJavaImport(final String globalJavaImport) {

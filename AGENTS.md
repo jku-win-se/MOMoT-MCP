@@ -34,18 +34,34 @@ test-suite/                   E2E benchmark suite — 5 verified test cases
 docs/
   00-architecture-overview.md Full architecture with diagrams
   henshin/                    10-chapter Henshin knowledge base (00–09)
+  mutation-spi/               SPI epic: decouple Henshin; EMF.cloud split (scaffolding)
 tools/
   henshin-validator/          Fast CLI validator for .henshin (no Docker needed)
   momot-validator/            Fast CLI validator for .momot (Maven setup required)
   ecore-validator/            Fast CLI validator for .ecore (no Docker needed)
   xmi-validator/              Fast CLI validator for .xmi (no Docker needed)
-.github/prompts/              Reusable agent prompt templates
-  henshin-agent.prompt.md     Henshin expert loop
-  henshin-loop.prompt.md      Two-tier iterative Henshin fix loop
-  e2e-test-suite-verify-and-fix.prompt.md  Full suite verification loop
+agents/prompts/               Reusable agent prompt templates
+  mutation-spi-implement.prompt.md  Implement Mutation Operator SPI phases
+  coordinator.prompt.md       Smart Agent coordinator
+  henshin-subagent.prompt.md  Henshin generation sub-agent
 .cursor/rules/
   henshin-expert.mdc          Auto-activated Cursor rule for .henshin files
+  mutation-spi.mdc            SPI epic rule (docs + spi.mutation globs)
 ```
+
+---
+
+## Mutation Operator SPI (active scaffolding)
+
+Branch intent: `feat/mutation-operator-spi`.
+
+**Locked strategy:** TypeScript for EMF.cloud tool surface; evolutionary engine remains a separate service; transformation languages plug in via a Mutation Operator SPI (Henshin = first adapter).
+
+- Spec index: [`docs/mutation-spi/README.md`](docs/mutation-spi/README.md)
+- Implement via: [`agents/prompts/mutation-spi-implement.prompt.md`](agents/prompts/mutation-spi-implement.prompt.md)
+- Java stubs: `plugins/at.ac.tuwien.big.momot.core/src/at/ac/tuwien/big/momot/spi/mutation/`
+
+Phase 0 (docs + stubs) is scaffolding only — production search still uses Henshin directly until Phase 2.
 
 ---
 

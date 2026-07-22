@@ -53,6 +53,7 @@ Explore the documentation sections using the sidebar to learn more:
 * [Package & Entry Points](01-package-and-entrypoints.md) — Syntactic structure of MOMoT scripts.
 * [Minimal Stack Case Study](09-minimal-test-case.md) — Step-by-step walk-through of the stack load-balancing example.
 * [Validation Runbook](08-validation-and-runbook.md) — Diagnosing compilation and validation errors.
+* [Mutation Operator SPI](mutation-spi/README.md) — **Scaffolding:** decouple Henshin via SPI; TS cloud surface + engine service split.
 
 ### 📐 Structural Metamodeling
 * [Ecore Overview](ecore/00-overview.md) — Creating valid metamodels.

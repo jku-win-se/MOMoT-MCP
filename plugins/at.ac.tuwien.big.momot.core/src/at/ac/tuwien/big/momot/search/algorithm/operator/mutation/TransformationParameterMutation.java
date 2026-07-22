@@ -1,15 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2015 Vienna University of Technology.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Martin Fleck (Vienna University of Technology) - initial API and implementation
- *
- * Initially developed in the context of ARTIST EU project www.artist-project.eu
- *******************************************************************************/
 package at.ac.tuwien.big.momot.search.algorithm.operator.mutation;
 
 import at.ac.tuwien.big.moea.problem.solution.variable.IPlaceholderVariable;
@@ -17,10 +5,12 @@ import at.ac.tuwien.big.moea.util.CollectionUtil;
 import at.ac.tuwien.big.momot.ModuleManager;
 import at.ac.tuwien.big.momot.problem.solution.TransformationSolution;
 import at.ac.tuwien.big.momot.problem.solution.variable.ITransformationVariable;
+import at.ac.tuwien.big.momot.spi.mutation.MutationOperator;
+import at.ac.tuwien.big.momot.spi.mutation.MutationOperatorEngine;
+import at.ac.tuwien.big.momot.spi.mutation.OperatorParameter;
+import at.ac.tuwien.big.momot.spi.mutation.ParameterBinding;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.ParameterKind;
+import java.util.Random;
 
 public class TransformationParameterMutation extends AbstractTransformationMutation {
 
@@ -55,17 +45,28 @@ public class TransformationParameterMutation extends AbstractTransformationMutat
          randomVariable = CollectionUtil.getRandomElement(mutant.getVariables());
       }
 
-      final EList<Parameter> ruleParameters = randomVariable.getUnit().getParameters();
-      for(final Parameter parameter : ruleParameters) {
-         if(parameter.getKind() == ParameterKind.VAR) {
-            continue;
-         }
-         final Object value = randomVariable.getParameterValue(parameter);
-         if(value != null) {
-            final Object paramValue = getModuleManager().nextParameterValue(parameter);
-            if(paramValue != null) {
-               randomVariable.setParameterValue(parameter, paramValue);
+      if (randomVariable != null && randomVariable.getOperatorApplication() != null) {
+         final String opId = randomVariable.getOperatorApplication().getOperatorId();
+         final MutationOperatorEngine engine = mutant.getMutationEngine();
+         MutationOperator chosenOp = null;
+         for (final MutationOperator op : engine.listOperators()) {
+            if (op.getId().equals(opId)) {
+               chosenOp = op;
                break;
+            }
+         }
+
+         if (chosenOp != null) {
+            for (final OperatorParameter param : chosenOp.getParameters()) {
+               if (param.isSearchable()) {
+                  final ParameterBinding sampled = engine.sampleParameters(chosenOp, new Random());
+                  final Object nextValue = sampled.get(param.getName());
+                  if (nextValue != null) {
+                     randomVariable.getOperatorApplication().getBindings().put(param.getName(), nextValue);
+                     mutant.setDirty();
+                     break;
+                  }
+               }
             }
          }
       }

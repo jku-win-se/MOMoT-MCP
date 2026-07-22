@@ -44,6 +44,10 @@ The Docker image uses a two-stage multi-stage build. Stage 1 (BUILD) compiles th
 
 The base image is pinned to `maven:3.9-eclipse-temurin-21` to avoid class file version incompatibilities with the Xtext/ASM toolchain.
 
+## Planned evolution (Mutation SPI)
+
+Work is underway to decouple Henshin behind a Mutation Operator SPI and split a TypeScript EMF.cloud tool surface from the evolutionary engine service. See [mutation-spi/README.md](mutation-spi/README.md). This does not change the runtime topology above until Phase 2+.
+
 ## Diagram source
 
 All diagrams are generated from PlantUML sources embedded in `local-scripts/Generate-Diagrams.ps1` and rendered via a local [Kroki](https://kroki.io/) instance. To regenerate:

@@ -1,15 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2015 Vienna University of Technology.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Martin Fleck (Vienna University of Technology) - initial API and implementation
- *
- * Initially developed in the context of ARTIST EU project www.artist-project.eu
- *******************************************************************************/
 package at.ac.tuwien.big.momot.problem.solution;
 
 import at.ac.tuwien.big.moea.problem.solution.SearchSolution;
@@ -20,6 +8,9 @@ import at.ac.tuwien.big.momot.problem.solution.variable.ITransformationVariable;
 import at.ac.tuwien.big.momot.problem.solution.variable.TransformationPlaceholderVariable;
 import at.ac.tuwien.big.momot.problem.unit.parameter.comparator.DefaultEObjectEqualityHelper;
 import at.ac.tuwien.big.momot.problem.unit.parameter.comparator.IEObjectEqualityHelper;
+import at.ac.tuwien.big.momot.spi.mutation.ModelHandle;
+import at.ac.tuwien.big.momot.spi.mutation.MutationOperatorEngine;
+import at.ac.tuwien.big.momot.spi.mutation.henshin.HenshinModelHandle;
 import at.ac.tuwien.big.momot.util.MomotUtil;
 
 import java.util.ArrayList;
@@ -28,7 +19,6 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.model.Parameter;
 import org.moeaframework.core.Solution;
 import org.moeaframework.core.Variable;
 
@@ -47,8 +37,10 @@ public class TransformationSolution extends SearchSolution implements Comparable
          }
       }
 
-      return new TransformationSolution(solution.getSourceGraph(), nonPlaceholderVariables,
+      final TransformationSolution copy = new TransformationSolution(solution.getSourceGraph(), nonPlaceholderVariables,
             solution.getNumberOfObjectives(), solution.getNumberOfConstraints());
+      copy.setMutationEngine(solution.getMutationEngine());
+      return copy;
    }
 
    protected ITransformationVariable[] variables;
@@ -57,6 +49,7 @@ public class TransformationSolution extends SearchSolution implements Comparable
    protected EGraph resultGraph;
 
    protected IEObjectEqualityHelper equalityHelper;
+   protected transient MutationOperatorEngine mutationEngine;
 
    public TransformationSolution(final EGraph sourceGraph, final int numberOfVariables, final int numberOfObjectives) {
       this(sourceGraph, numberOfVariables, numberOfObjectives, 0);
@@ -90,31 +83,26 @@ public class TransformationSolution extends SearchSolution implements Comparable
       this(searchOrchestration.getProblemGraph(), searchOrchestration.getSolutionLength(),
             searchOrchestration.getNumberOfObjectives(), searchOrchestration.getNumberOfObjectives());
       setEqualityHelper(searchOrchestration.getEqualityHelper());
+      setMutationEngine(searchOrchestration.getMutationEngine());
    }
 
    public TransformationSolution(final TransformationSolution solution) {
       this(solution.getSourceGraph(), solution);
       setEqualityHelper(solution.getEqualityHelper());
+      setMutationEngine(solution.getMutationEngine());
    }
 
-   protected void adapt(final ITransformationVariable variable, final EGraph newGraph) {
-      if(variable instanceof IPlaceholderVariable) {
-         return;
+   public MutationOperatorEngine getMutationEngine() {
+      if (mutationEngine == null) {
+         throw new IllegalStateException(
+               "MutationOperatorEngine was not set. Inject via setMutationEngine() "
+                     + "from TransformationSearchOrchestration / SearchHelper before execute().");
       }
+      return mutationEngine;
+   }
 
-      for(final Parameter param : variable.getUnit().getParameters()) {
-         final Object paramValue = variable.getParameterValue(param);
-         if(paramValue instanceof EObject) {
-            final EObject valueInOldGraph = (EObject) paramValue;
-            for(final EObject valueInNewGraph : newGraph.getDomain(valueInOldGraph.eClass(), true)) {
-               if(equals(valueInNewGraph, valueInOldGraph)) {
-                  variable.setParameterValue(param, valueInNewGraph);
-                  break;
-               }
-            }
-         }
-      }
-      variable.setEGraph(newGraph);
+   public void setMutationEngine(final MutationOperatorEngine mutationEngine) {
+      this.mutationEngine = mutationEngine;
    }
 
    @Override
@@ -209,9 +197,13 @@ public class TransformationSolution extends SearchSolution implements Comparable
       }
 
       final EGraph searchGraph = MomotUtil.copy(getSourceGraph());
+      final ModelHandle model = new HenshinModelHandle(searchGraph);
+      final MutationOperatorEngine engine = getMutationEngine();
+
       for(final ITransformationVariable variable : getVariables()) {
-         adapt(variable, searchGraph);
-         variable.execute(true);
+         if (variable != null) {
+            variable.execute(model, engine);
+         }
       }
       this.resultGraph = searchGraph;
       return resultGraph;
@@ -266,9 +258,7 @@ public class TransformationSolution extends SearchSolution implements Comparable
    }
 
    public void redo() {
-      for(final ITransformationVariable variable : getVariables()) {
-         variable.redo(null);
-      }
+      // no-op transitional
    }
 
    protected ITransformationVariable[] resize(final List<ITransformationVariable> variables) {
@@ -344,9 +334,7 @@ public class TransformationSolution extends SearchSolution implements Comparable
    }
 
    public void undo() {
-      for(int i = getVariables().length - 1; i >= 0; i--) {
-         variables[i].undo(null);
-      }
+      // no-op transitional
    }
 
 }

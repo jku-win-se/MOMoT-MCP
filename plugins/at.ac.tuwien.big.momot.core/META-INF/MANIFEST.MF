@@ -30,7 +30,9 @@ Export-Package: at.ac.tuwien.big.momot,
  at.ac.tuwien.big.momot.search.fitness.dimension,
  at.ac.tuwien.big.momot.search.solution.executor,
  at.ac.tuwien.big.momot.search.solution.executor.monitor,
- at.ac.tuwien.big.momot.search.solution.generator,
- at.ac.tuwien.big.momot.search.solution.repair,
- at.ac.tuwien.big.momot.util
+  at.ac.tuwien.big.momot.search.solution.generator,
+  at.ac.tuwien.big.momot.search.solution.repair,
+  at.ac.tuwien.big.momot.util,
+  at.ac.tuwien.big.momot.spi.mutation,
+  at.ac.tuwien.big.momot.spi.mutation.henshin
 Import-Package: org.apache.commons.lang3
