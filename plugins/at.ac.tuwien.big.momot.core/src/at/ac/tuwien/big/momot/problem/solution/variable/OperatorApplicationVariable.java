@@ -32,8 +32,13 @@ public class OperatorApplicationVariable implements ITransformationVariable {
          this.executed = false;
          return false;
       }
+      Objects.requireNonNull(engine, "engine");
       final ApplyResult result = engine.tryApply(model, operatorApplication);
       this.executed = result.isSuccess();
+      // Persist concrete OUT/INOUT (and matched IN) bindings for deterministic replay.
+      if (this.executed) {
+         operatorApplication.getBindings().putAll(result.getOutBindings());
+      }
       return this.executed;
    }
 

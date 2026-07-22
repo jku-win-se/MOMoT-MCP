@@ -4,11 +4,14 @@
 |---|---|
 | Branch | `feat/mutation-operator-spi` |
 | Phase completed | **2.1 — Cleanup** |
-| Next phase | **Stop for PR** (Phase 3+ optional follow-ups) |
+| Next phase | **Stop for PR** (Phase 3+ optional) |
 | Production search path | SPI-retargeted (Henshin adapter) |
 | Agent prompt | `agents/prompts/mutation-spi-implement.prompt.md` |
+| Latest commit (phase gate) | `c338821` (+ Copilot review fixes) |
 
 ## Notes
 
-- The root `pom.xml`'s `<module>tests</module>` has been enabled to compile and run the E2E Tycho integration/unit test suite (`at.ac.tuwien.big.momot.core.tests`) directly from the maven build, ensuring continuous verification of SPI adapter implementations and target platform sanity.
-- **ModuleManager Reuse/Wiring Fix:** Wire `HenshinMutationEngine` to receive and reuse the orchestration's pre-configured `ModuleManager` instance rather than creating a fresh one. This fully preserves all generated rules/units, ignored operators (`ignoreUnits`), ignored parameters, and custom parameter values/injectors, maintaining exact behavioral parity.
+- Root `pom.xml` `<module>tests</module>` enabled for Tycho SPI tests.
+- `HenshinMutationEngine` reuses the orchestration `ModuleManager` (preserves `ignoreUnits` / `parameterValues` / `ignoreParameters`).
+- Henshin import allowlist: [`10-import-allowlist.md`](10-import-allowlist.md).
+- E2E harness: `test-suite/verify-e2e.js` (Tier 1–3).

@@ -28,6 +28,13 @@ public final class ParameterBinding {
       values.put(name, value);
    }
 
+   /** Merge another binding into this one (overwrites on key clash). */
+   public void putAll(final ParameterBinding other) {
+      if (other != null) {
+         values.putAll(other.values);
+      }
+   }
+
    public Map<String, Object> asMap() {
       return Collections.unmodifiableMap(values);
    }

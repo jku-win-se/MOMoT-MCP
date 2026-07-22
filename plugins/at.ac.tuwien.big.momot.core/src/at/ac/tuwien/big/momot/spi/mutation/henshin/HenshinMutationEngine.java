@@ -301,8 +301,8 @@ public final class HenshinMutationEngine implements MutationOperatorEngine {
                for (final EObject obj : resource.getContents()) {
                   if (obj instanceof EPackage) {
                      final EPackage ePackage = (EPackage) obj;
+                     // Job-local registry only — avoid polluting JVM-global EPackage.Registry.
                      resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
-                     EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
                   }
                }
             } catch (final Exception e) {

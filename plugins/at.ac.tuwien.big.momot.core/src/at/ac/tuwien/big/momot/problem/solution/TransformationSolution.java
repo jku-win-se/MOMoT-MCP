@@ -10,8 +10,6 @@ import at.ac.tuwien.big.momot.problem.unit.parameter.comparator.DefaultEObjectEq
 import at.ac.tuwien.big.momot.problem.unit.parameter.comparator.IEObjectEqualityHelper;
 import at.ac.tuwien.big.momot.spi.mutation.ModelHandle;
 import at.ac.tuwien.big.momot.spi.mutation.MutationOperatorEngine;
-import at.ac.tuwien.big.momot.spi.mutation.MutationBackendId;
-import at.ac.tuwien.big.momot.spi.mutation.MutationEngineRegistry;
 import at.ac.tuwien.big.momot.spi.mutation.henshin.HenshinModelHandle;
 import at.ac.tuwien.big.momot.util.MomotUtil;
 
@@ -96,11 +94,9 @@ public class TransformationSolution extends SearchSolution implements Comparable
 
    public MutationOperatorEngine getMutationEngine() {
       if (mutationEngine == null) {
-         try {
-            mutationEngine = MutationEngineRegistry.getInstance().create(MutationBackendId.HENSHIN);
-         } catch (final Exception e) {
-            // fallback if registry not ready yet
-         }
+         throw new IllegalStateException(
+               "MutationOperatorEngine was not set. Inject via setMutationEngine() "
+                     + "from TransformationSearchOrchestration / SearchHelper before execute().");
       }
       return mutationEngine;
    }

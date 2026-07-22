@@ -8,7 +8,6 @@ import at.ac.tuwien.big.momot.problem.solution.TransformationSolution;
 import at.ac.tuwien.big.momot.problem.solution.variable.ITransformationVariable;
 import at.ac.tuwien.big.momot.problem.solution.variable.TransformationPlaceholderVariable;
 import at.ac.tuwien.big.momot.problem.solution.variable.OperatorApplicationVariable;
-import at.ac.tuwien.big.momot.spi.mutation.ApplyResult;
 import at.ac.tuwien.big.momot.spi.mutation.ModelHandle;
 import at.ac.tuwien.big.momot.spi.mutation.MutationOperator;
 import at.ac.tuwien.big.momot.spi.mutation.MutationOperatorEngine;
@@ -150,15 +149,11 @@ public class SearchHelper {
          final ParameterBinding bindings = engine.sampleParameters(chosenOp, new Random());
          final OperatorApplication gene = new OperatorApplication(chosenOp.getId(), bindings, false);
 
-         final ModelHandle workingModel = new HenshinModelHandle(MomotUtil.copy(graph));
-         final ApplyResult result = engine.tryApply(workingModel, gene);
-
-         if (result.isSuccess()) {
-            final ModelHandle actualModel = new HenshinModelHandle(graph);
-            engine.tryApply(actualModel, gene);
-            
-            final OperatorApplicationVariable var = new OperatorApplicationVariable(gene);
-            var.setExecuted(true);
+         // Apply once on the real graph. tryApply must leave the model unchanged on failure
+         // (no-match or undo). On success, execute() merges outBindings into the gene for replay.
+         final ModelHandle actualModel = new HenshinModelHandle(graph);
+         final OperatorApplicationVariable var = new OperatorApplicationVariable(gene);
+         if (var.execute(actualModel, engine)) {
             return var;
          }
 
