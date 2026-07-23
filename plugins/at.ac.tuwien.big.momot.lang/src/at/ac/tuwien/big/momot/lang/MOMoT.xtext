@@ -31,6 +31,7 @@ ArrayLiteral returns xbase::XListLiteral:
 
 ModuleOrchestration:
    "{"
+      ("backend" OpSingleAssign backend = XExpression)?
       "modules" OpSingleAssign modules = ArrayLiteral 
       ("ignoreUnits" OpSingleAssign unitsToRemove = ArrayLiteral)?
       ("ignoreParameters" OpSingleAssign nonSolutionParameters = ArrayLiteral)? 

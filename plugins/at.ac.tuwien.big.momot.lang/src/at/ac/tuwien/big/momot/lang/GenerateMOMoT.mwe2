@@ -8,33 +8,38 @@ var projectName = "at.ac.tuwien.big.momot.lang"
 var rootPath = ".."
 var encoding = "UTF-8"
 
-XtextGenerator {
-   configuration = {
-      project = StandardProjectConfig {
-         baseName = projectName
-         rootPath = rootPath
-         runtimeTest = {
-            enabled = false
-         }
+Workflow {
+   component = XtextGenerator {
+      configuration = {
+         project = StandardProjectConfig {
+            baseName = projectName
+            rootPath = rootPath
+            runtimeTest = {
+               enabled = false
+            }
          eclipsePlugin = {
             enabled = true
          }
          eclipsePluginTest = {
             enabled = false
          }
+         genericIde = {
+            enabled = false
+         }
          createEclipseMetaData = true
+         }
+         code = {
+            encoding = encoding
+            lineDelimiter = "\n"
+            preferXtendStubs = true
+         }
       }
-      code = {
-         encoding = encoding
-         lineDelimiter = "\n"
-         preferXtendStubs = true
-      }
-   }
-   language = StandardLanguage {
-      name = "at.ac.tuwien.big.momot.lang.MOMoT"
-      fileExtensions = fileExtensions
-      serializer = {
-         generateStub = false
+      language = StandardLanguage {
+         name = "at.ac.tuwien.big.momot.lang.MOMoT"
+         fileExtensions = fileExtensions
+         serializer = {
+            generateStub = false
+         }
       }
    }
 }

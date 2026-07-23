@@ -55,3 +55,14 @@ transformations = {
 
 ## Pluggable Search Backend (SPI)
 MOMoT 2.0 uses a pluggable **Mutation Operator SPI** under the hood. The modules listed in the `transformations` block are loaded and executed abstractly via `MutationOperatorEngine`. Henshin is the default backend adapter, but alternative backends can be dynamically registered in `MutationEngineRegistry` (such as the proof-of-concept `stub` engine).
+
+You can explicitly configure the mutation backend inside the `transformations` block:
+
+```text
+transformations = {
+	backend = "henshin" // optional; default "henshin"
+	modules = [ "transformations/rules.henshin" ]
+}
+```
+
+If the specified backend is not registered, the system will fail-fast at load-time and list the currently registered backend adapters (e.g. `[henshin, stub]`).

@@ -30,6 +30,8 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ModuleOrchestration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="backend" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="modules" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XListLiteral"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unitsToRemove" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XListLiteral"

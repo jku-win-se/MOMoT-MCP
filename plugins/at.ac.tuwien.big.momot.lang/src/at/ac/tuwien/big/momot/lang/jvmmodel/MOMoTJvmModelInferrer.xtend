@@ -697,8 +697,10 @@ class MOMoTJvmModelInferrer extends AbstractModelInferrer {
                   appendLine(eGraphRef.type, " ", MOMoTInferrer::Name::PARAM_GRAPH, " = ", MOMoTInferrer::Name::METHOD_CREATE_INPUT_GRAPH, "(", MOMoTInferrer::Name::PARAM_INITIAL_GRAPH, ", ", MOMoTInferrer::Name::PARAM_MODULE_MANAGER, ");")
                   appendLine(MOMoTInferrer::Name::PARAM_ORCHESTRATION, ".setModuleManager(", MOMoTInferrer::Name::PARAM_MODULE_MANAGER, ");")
                   appendLine(MOMoTInferrer::Name::PARAM_ORCHESTRATION, ".setProblemGraph(", MOMoTInferrer::Name::PARAM_GRAPH, ");")
-                  appendLine(MOMoTInferrer::Name::PARAM_ORCHESTRATION, ".setSolutionLength(", MOMoTInferrer::Name::PARAM_SOLUTION_LENGTH, ");")
-                     appendLine(MOMoTInferrer::Name::PARAM_ORCHESTRATION, ".setFitnessFunction(", MOMoTInferrer::Name::METHOD_CREATE_FITNESS_FUNCTION, "(", MOMoTInferrer::Name::PARAM_ORCHESTRATION, "));")
+                   appendLine(MOMoTInferrer::Name::PARAM_ORCHESTRATION, ".setSolutionLength(", MOMoTInferrer::Name::PARAM_SOLUTION_LENGTH, ");")
+                   if (transformations.backend !== null)
+                      appendLine(MOMoTInferrer::Name::PARAM_ORCHESTRATION, ".setMutationBackendId(", transformations.backend, ");")
+                   appendLine(MOMoTInferrer::Name::PARAM_ORCHESTRATION, ".setFitnessFunction(", MOMoTInferrer::Name::METHOD_CREATE_FITNESS_FUNCTION, "(", MOMoTInferrer::Name::PARAM_ORCHESTRATION, "));")
                   if(searchOrchestration.equalityHelper != null)
                      appendLine(MOMoTInferrer::Name::PARAM_ORCHESTRATION, ".setEqualityHelper(", MOMoTInferrer::Name::METHOD_CREATE_EQUALITY_HELPER, "());")
                   newLine

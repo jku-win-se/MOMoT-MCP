@@ -77,6 +77,7 @@ export async function executeMomotJob(input) {
     responseZip: runResult.responseZip,
     diagnostics: {
       ...diagnostics,
+      mutationBackend: parsed.request?.mutationBackend || 'henshin',
       requestUrl: runResult.requestUrl,
       statusCode: runResult.statusCode,
       request: parsed.request,
