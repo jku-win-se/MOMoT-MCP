@@ -1,5 +1,4 @@
 import JSZip from 'jszip';
-import path from 'node:path';
 
 const DEFAULT_REQUEST_TIMEOUT_MS = 120000;
 const DEFAULT_LOG_TAIL_LINES = 40;
@@ -35,14 +34,14 @@ export class DefaultMomotEngineClient {
     for (const [entryPath, content] of Object.entries(files)) {
       const normalized = normalizeZipPath(entryPath);
       const data = typeof content === 'string'
-        ? Buffer.from(content, 'utf8')
+        ? new TextEncoder().encode(content)
         : content;
       
       zip.file(normalized, data, { binary: true });
     }
 
     const zipPayload = await zip.generateAsync({
-      type: 'nodebuffer',
+      type: 'uint8array',
       compression: 'DEFLATE',
       compressionOptions: { level: 6 }
     });
@@ -84,7 +83,7 @@ export class DefaultMomotEngineClient {
     }
 
     const arrayBuffer = await response.arrayBuffer();
-    const responseZip = Buffer.from(arrayBuffer);
+    const responseZip = new Uint8Array(arrayBuffer);
 
     // Parse Response Zip
     const responseZipObj = await JSZip.loadAsync(responseZip);
@@ -133,12 +132,38 @@ export class DefaultMomotEngineClient {
   }
 }
 
+function normalizePath(p) {
+  let normalized = p.replace(/\\/g, '/');
+  normalized = normalized.replace(/\/+/g, '/');
+  const segments = normalized.split('/');
+  const result = [];
+  for (const segment of segments) {
+    if (segment === '.' || segment === '') {
+      continue;
+    }
+    if (segment === '..') {
+      if (result.length > 0 && result[result.length - 1] !== '..') {
+        result.pop();
+      } else {
+        result.push('..');
+      }
+    } else {
+      result.push(segment);
+    }
+  }
+  let out = result.join('/');
+  if (normalized.startsWith('/') && !out.startsWith('/')) {
+    out = '/' + out;
+  }
+  return out || '.';
+}
+
 export function normalizeZipPath(entryPath) {
   if (typeof entryPath !== 'string' || entryPath.trim().length === 0) {
     throw new Error('Zip entry path must be a non-empty string.');
   }
   let normalized = entryPath.replace(/\\/g, '/').replace(/^\/+/, '');
-  normalized = path.posix.normalize(normalized);
+  normalized = normalizePath(normalized);
   if (normalized === '.' || normalized.startsWith('../') || normalized.includes('/../')) {
     throw new Error(`Path traversal is not allowed: ${entryPath}`);
   }

@@ -1,6 +1,6 @@
 # 06 — TypeScript Cloud Surface
 
-This layer is **planned**, not scaffolded as a full app in this branch. Implement after SPI + Henshin parity (see phases).
+The TS cloud surface is implemented as part of Phase 6 — Slice 1, providing scaffolding and isomorphic packages that can be consumed by Theia or an EMF.cloud extension.
 
 ## Role
 
@@ -12,17 +12,26 @@ EMF.cloud / IDE-facing UX that:
 
 It does **not** run NSGA-II in the browser and does **not** load Henshin.
 
-## Suggested package layout (future)
+## Scaffolded Package Layout
+
+The cloud surface has been structured under the `cloud/` directory as highly modular packages:
 
 ```text
-cloud/                          # or mcp/cloud-extension/
+cloud/
   packages/
-    momot-engine-client/        # typed client for /health, /run
-    momot-results/              # parse overall_objectives.pf, outputs ZIP
-    momot-emfcloud-bridge/      # Model Hub commands: load result XMI/JSON
+    momot-engine-client/        # Re-exports the isomorphic client (for /health, /run)
+    momot-results/              # Parses overall_objectives.pf, lists out/ output artifacts
+    momot-emfcloud-bridge/      # Stubs loadOptimizedModel and Model Hub integration points
   apps/
-    theia-momot-ext/            # optional later
+    theia-momot-ext/            # Optional thin README/skeleton for future extension
 ```
+
+### Browser and WebWorker Isomorphism
+The core client library `packages/momot-engine-client` has been polished to remove all Node-only APIs (like `Buffer` or `node:path`) from the hot path:
+- Uses `TextEncoder` / `TextDecoder` for encoding/decoding string content.
+- Uses `JSZip` generating a `uint8array` instead of a Node `Buffer`.
+- Does not import Node's `node:path` core module.
+This allows it to run interchangeably in Node.js (for the MCP server) and browser environments.
 
 ## Client API (engine service)
 
