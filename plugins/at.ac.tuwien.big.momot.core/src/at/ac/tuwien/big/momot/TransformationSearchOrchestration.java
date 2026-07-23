@@ -114,7 +114,7 @@ public class TransformationSearchOrchestration extends AbstractSearchOrchestrati
          final MutationEngineRegistry registry = MutationEngineRegistry.getInstance();
          final List<String> modulePaths = new ArrayList<>();
          for (final org.eclipse.emf.henshin.model.Module module : getModuleManager().getModules()) {
-            if (module.eResource() != null) {
+            if (module != null && module.eResource() != null) {
                modulePaths.add(module.eResource().getURI().toString());
             }
          }

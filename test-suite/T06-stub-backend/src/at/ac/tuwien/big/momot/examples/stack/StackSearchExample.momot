@@ -1,0 +1,50 @@
+package at.ac.tuwien.big.momot.examples.stack.momot
+
+import at.ac.tuwien.big.momot.^search.^fitness.dimension.TransformationLengthDimension
+import at.ac.tuwien.big.momot.^search.solution.repair.TransformationPlaceholderRepairer
+import org.moeaframework.core.operator.TournamentSelection
+import org.moeaframework.core.operator.OnePointCrossover
+import at.ac.tuwien.big.momot.^search.algorithm.operator.mutation.TransformationPlaceholderMutation
+import at.ac.tuwien.big.momot.^search.algorithm.operator.mutation.TransformationParameterMutation
+import at.ac.tuwien.big.moea.^experiment.executor.listener.SeedRuntimePrintListener
+
+search = {
+   model          = {
+      file = "model/input/model/model_five_stacks.xmi"
+   }
+   solutionLength = 4
+   
+   transformations = {
+      backend = "stub"
+      modules = [ "model/stack.ecore" ] 
+   }
+   
+   fitness = {
+      objectives = {
+         SolutionLength    : minimize new TransformationLengthDimension
+      }
+      solutionRepairer = new TransformationPlaceholderRepairer
+   }
+   
+   algorithms = {
+      NSGA_II   : moea.createNSGAII(
+                  new TournamentSelection(2),
+                  new OnePointCrossover(1.0), 
+                  new TransformationPlaceholderMutation(0.15),
+                  new TransformationParameterMutation(0.1, orchestration.moduleManager))
+   }   
+}
+
+experiment = {
+   populationSize    = 10
+   maxEvaluations    = 20
+   nrRuns             = 1
+   progressListeners = [ new SeedRuntimePrintListener ]
+}
+   
+results = {   
+   objectives = {
+      outputFile = "out/objectives/overall_objectives.pf"
+      printOutput
+   }
+}   
