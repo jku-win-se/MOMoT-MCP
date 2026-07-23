@@ -134,6 +134,51 @@ Execution:
   }
 }
 
+## Shared TypeScript Engine Client (`momot-engine-client`)
+
+To facilitate sharing the engine communication layer between this MCP server and modern cloud/IDE surfaces (such as **EMF.cloud**, **Theia**, or other VS Code extensions), a shared TypeScript/JavaScript client is provided in `packages/momot-engine-client`.
+
+### How to use `momot-engine-client`
+
+Any Node.js or TypeScript client can import and use the shared client as follows:
+
+```typescript
+import { DefaultMomotEngineClient } from 'momot-engine-client';
+import * as fs from 'fs';
+
+// 1. Instantiate the client pointing to the Java REST runner endpoint
+const client = new DefaultMomotEngineClient({
+  restBaseUrl: 'http://localhost:8080',
+  retries: 2,
+  retryDelayMs: 500
+});
+
+// 2. Check health of the REST engine
+const health = await client.health();
+if (health.ok) {
+  console.log('MOMoT REST runner is online!');
+}
+
+// 3. Assemble and execute an optimization job
+const result = await client.runJob({
+  scriptPath: 'src/Search.momot',
+  files: {
+    'src/Search.momot': fs.readFileSync('src/Search.momot', 'utf-8'),
+    'model/stack.ecore': fs.readFileSync('model/stack.ecore'), // Binary buffers or Uint8Arrays work perfectly too
+    'model/input.xmi': fs.readFileSync('model/input.xmi')
+  }
+});
+
+console.log(`Execution status exitCode: ${result.exitCode}`);
+console.log(`Log output tail:\n${result.logTail}`);
+
+// 4. Handle output models and Pareto fronts
+for (const [filePath, fileContent] of Object.entries(result.outputs)) {
+  console.log(`Received output file: ${filePath} (${fileContent.byteLength} bytes)`);
+  // Process output XMI or Pareto Front points
+}
+```
+
 ## Troubleshooting
 
 - REST unavailable:

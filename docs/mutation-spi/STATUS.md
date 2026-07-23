@@ -2,12 +2,12 @@
 
 | Field | Value |
 |---|---|
-| Branch | `feat/mutation-spi-phase4` |
-| Phase completed | **4 — Stub second backend** |
-| Next phase | **Phase 5 — TypeScript engine client** |
+| Branch | `feat/mutation-spi-phase5` |
+| Phase completed | **5 — TypeScript engine client** |
+| Next phase | **Phase 6 — EMF.cloud surface (separate epic)** |
 | Production search path | SPI-retargeted (Henshin adapter) |
 | Agent prompt | `agents/prompts/mutation-spi-implement.prompt.md` |
-| Latest commit (phase gate) | `feat(spi): implement StubMutationEngine, StubModelHandle and integrate T06 E2E validation (Phase 4)` |
+| Latest commit (phase gate) | `feat(spi): extract shared typed engine client and retarget MCP execute path (Phase 5)` |
 
 ## Notes
 
@@ -20,3 +20,5 @@
 - Priority-based backend resolution from `job/manifest.json` and `.momot` script implemented.
 - `StubMutationEngine` fully implemented with resource-loading and `StubModelHandle` to load and evaluate standard EMF models without Henshin.
 - **P4.1 (Henshin Classpath Independence)**: While `StubMutationEngine` and `StubModelHandle` have **no Henshin imports or dependencies**, the runner JVM classpath still statically requires Henshin JARs. This is because the Java class dynamically generated and compiled from the `.momot` script, along with the orchestrator, statically references Henshin's `org.eclipse.emf.henshin.interpreter.EGraph` and `HenshinResourceSet`. Completely removing Henshin from the classpath would cause a `NoClassDefFoundError` upon classloading of the search class.
+- **P5.1 (Shared TypeScript Engine Client)**: Extracted `DefaultMomotEngineClient` and definitions matching `06-typescript-cloud-surface.md` into `packages/momot-engine-client`. This shared client has zero external build requirements, includes full TypeScript interfaces (`MomotEngineClient`, `MomotJobResult`), and is easily used by EMF.cloud/Theia or any other cloud IDE front-end.
+- **P5.2 (MCP Retargeting)**: Rewrote MCP's execution pathway (`executeMomotJob` in `mcp/lib.js`) to import and delegate directly to the shared `momot-engine-client` package, achieving 100% test-suite parity.

@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
 import { fileURLToPath } from 'node:url';
 import JSZip from 'jszip';
+import { DefaultMomotEngineClient } from 'momot-engine-client';
 
 // Export new Smart Agent utilities
 export { detectArtifacts } from './lib/detectArtifacts.js';
@@ -36,9 +37,14 @@ export async function executeMomotJob(input) {
     throw new Error(`Missing required script file in filesBase64: ${scriptPath}`);
   }
 
-  const zipPayload = await buildJobZip(filesBase64);
+  const client = new DefaultMomotEngineClient({
+    restBaseUrl,
+    retries,
+    retryDelayMs
+  });
+
   const diagnostics = {};
-  const health = await checkRestHealth({ restBaseUrl, requestTimeoutMs, retries, retryDelayMs });
+  const health = await client.health();
   diagnostics.health = health;
 
   if (!health.ok) {
@@ -58,30 +64,38 @@ export async function executeMomotJob(input) {
     };
   }
 
-  const runResult = await postRunZip({ restBaseUrl, scriptPath, zipPayload, requestTimeoutMs, retries, retryDelayMs });
-  const parsed = await parseResponseZip(runResult.responseZip, logTailLines);
+  const files = {};
+  for (const [key, base64] of Object.entries(filesBase64)) {
+    files[key] = Buffer.from(base64, 'base64');
+  }
 
-  const rootCauseHint = deriveRootCauseHint(parsed);
+  const runResult = await client.runJob({
+    scriptPath,
+    files,
+    timeoutMs: requestTimeoutMs
+  });
+
+  const exitCode = Number.isFinite(Number(runResult.exitCode)) ? Number(runResult.exitCode) : -1;
+  const outputs = Object.keys(runResult.outputs).sort();
 
   return {
-    success: parsed.exitCode === 0,
-    exitCode: parsed.exitCode,
+    success: exitCode === 0,
+    exitCode,
     scriptPath,
     generatedFiles: Object.keys(filesBase64).sort(),
-    warnings: parsed.warnings,
-    summary: parsed.exitCode === 0
-      ? `Execution succeeded with ${parsed.outputs.length} output artifact(s).`
-      : `Execution failed with exit code ${parsed.exitCode}.`,
-    logTail: parsed.logTail,
-    outputs: parsed.outputs,
+    warnings: [],
+    summary: exitCode === 0
+      ? `Execution succeeded with ${outputs.length} output artifact(s).`
+      : `Execution failed with exit code ${exitCode}.`,
+    logTail: runResult.logTail,
+    outputs,
     responseZip: runResult.responseZip,
     diagnostics: {
       ...diagnostics,
-      mutationBackend: parsed.request?.mutationBackend || 'henshin',
-      requestUrl: runResult.requestUrl,
-      statusCode: runResult.statusCode,
-      request: parsed.request,
-      rootCauseHint
+      mutationBackend: runResult.diagnostics?.mutationBackend || 'henshin',
+      requestUrl: `${restBaseUrl}/run?script=${encodeURIComponent(scriptPath)}`,
+      statusCode: 200,
+      rootCauseHint: runResult.diagnostics?.rootCauseHint
     }
   };
 }
@@ -152,75 +166,7 @@ export function normalizeZipPath(entryPath) {
   return normalized;
 }
 
-async function checkRestHealth({ restBaseUrl, requestTimeoutMs, retries, retryDelayMs }) {
-  const healthUrl = `${restBaseUrl}/health`;
-  for (let attempt = 0; attempt <= retries; attempt += 1) {
-    try {
-      const response = await fetchWithTimeout(healthUrl, { method: 'GET' }, requestTimeoutMs);
-      if (response.ok) {
-        return { ok: true, statusCode: response.status };
-      }
-      if (attempt === retries) {
-        return { ok: false, statusCode: response.status, body: await response.text() };
-      }
-    } catch (error) {
-      if (attempt === retries) {
-        return { ok: false, error: String(error) };
-      }
-    }
-    await delay(retryDelayMs);
-  }
-  return { ok: false, error: 'Unknown health check failure.' };
-}
 
-async function postRunZip({ restBaseUrl, scriptPath, zipPayload, requestTimeoutMs, retries, retryDelayMs }) {
-  const requestUrl = `${restBaseUrl}/run?script=${encodeURIComponent(scriptPath)}`;
-  let lastError = null;
-  for (let attempt = 0; attempt <= retries; attempt += 1) {
-    try {
-      const response = await fetchWithTimeout(
-        requestUrl,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/zip' },
-          body: zipPayload
-        },
-        requestTimeoutMs
-      );
-      if (!response.ok) {
-        const bodyText = await response.text();
-        lastError = new Error(`REST /run failed with status ${response.status}: ${bodyText}`);
-        if (attempt === retries) {
-          throw lastError;
-        }
-      } else {
-        const arrayBuffer = await response.arrayBuffer();
-        return {
-          requestUrl,
-          statusCode: response.status,
-          responseZip: Buffer.from(arrayBuffer)
-        };
-      }
-    } catch (error) {
-      lastError = error;
-      if (attempt === retries) {
-        throw error;
-      }
-    }
-    await delay(retryDelayMs);
-  }
-  throw lastError || new Error('REST /run request failed.');
-}
-
-async function fetchWithTimeout(url, options, timeoutMs) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    return await fetch(url, { ...options, signal: controller.signal });
-  } finally {
-    clearTimeout(timer);
-  }
-}
 
 function deriveRootCauseHint(parsed) {
   const log = (parsed.logTail || '').toLowerCase();
