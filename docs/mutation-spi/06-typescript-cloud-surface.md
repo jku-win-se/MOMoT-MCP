@@ -64,8 +64,8 @@ Map onto existing MCP `execute_momot_job` semantics so MCP and EMF.cloud share o
 
 | Concern | Approach |
 |---|---|
-| Edit initial model | Model Hub / Model Server (JSON or EMF Java backend) |
-| Show optimized model | Import engine output XMI/JSON into Model Hub |
+| Edit initial model | Model Hub / Model Server (JSON or EMF Java backend). Queryable via `listHubModels()` |
+| Show optimized model | Push output solution models (`.xmi`) via `loadOptimizedModel()` or automate with `pushJobResultsToHub()` result helper |
 | Author operators | Phase later: textual ops UI; Henshin files as opaque artifacts initially |
 | Undo while searching | **Do not** use Model Server command stack for EA steps |
 
