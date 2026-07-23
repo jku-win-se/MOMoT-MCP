@@ -205,6 +205,13 @@ async function main() {
       ]
     );
 
+    await runBenchmark(
+      'T06-stub-backend',
+      'T06-stub-backend',
+      'src/at/ac/tuwien/big/momot/examples/stack/StackSearchExample.momot',
+      []
+    );
+
     console.log('\n==================================================');
     console.log('ALL E2E BENCHMARKS T01-T04 VERIFIED & 100% GREEN!');
     console.log('==================================================');

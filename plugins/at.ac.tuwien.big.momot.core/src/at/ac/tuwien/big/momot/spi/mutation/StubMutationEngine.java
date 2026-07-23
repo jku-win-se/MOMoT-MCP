@@ -4,6 +4,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+
 /**
  * Scaffold / CI proof backend. Phase 4 fleshes this out.
  *
@@ -47,8 +52,18 @@ public final class StubMutationEngine implements MutationOperatorEngine {
 
    @Override
    public ModelHandle loadInitialModel(final String modelPath) throws MutationEngineException {
-      throw new MutationEngineException(
-            "StubMutationEngine.loadInitialModel not implemented (Phase 4). path=" + modelPath);
+      requireLoaded();
+      try {
+         final URI uri = URI.createURI(modelPath);
+         final ResourceSet resourceSet = new ResourceSetImpl();
+         final Resource resource = resourceSet.getResource(uri, true);
+         if (resource != null && !resource.getContents().isEmpty()) {
+            return new StubModelHandle(resource.getContents().get(0));
+         }
+         throw new MutationEngineException("Loaded model is empty: " + modelPath);
+      } catch (final Exception e) {
+         throw new MutationEngineException("Failed to load model from path: " + modelPath, e);
+      }
    }
 
    @Override

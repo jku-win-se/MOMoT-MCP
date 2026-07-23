@@ -54,8 +54,8 @@ Execute in order. Do not skip parity gates.
 
 ## Phase 4 — Stub second backend
 
-1. Implement `stub` engine (one no-op or identity operator) for CI proof.
-2. Or thin EOL adapter spike (optional stretch).
+- [x] 1. Implement `stub` engine (one no-op or identity operator) for CI proof.
+- [x] 2. Or thin EOL adapter spike (optional stretch).
 
 **Exit:** Job with `backend = "stub"` loads and runs a trivial search without Henshin modules.
 

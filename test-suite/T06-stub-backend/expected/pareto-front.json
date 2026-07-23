@@ -1,0 +1,20 @@
+{
+  "problem": "T06 Stub Backend Trivial Search",
+  "description": "Minimal stack model with stub backend.",
+  "objectives": [
+    { "name": "SolutionLength", "direction": "minimize", "unit": "rule applications" }
+  ],
+  "ideal_point":  { "SolutionLength": 0 },
+  "nadir_point":  { "SolutionLength": 4 },
+  "reference_front": [
+    {
+      "SolutionLength": 4.0
+    }
+  ],
+  "derivation": "analytical",
+  "solutionLength": 4,
+  "validation": {
+    "method": "exact dominance check",
+    "pass_condition": "Found front must cover the reference point"
+  }
+}
