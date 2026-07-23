@@ -48,7 +48,7 @@ test('runJob() constructs zip and parses response zip successfully', async () =>
     responseZip.file('runner/runner.log', 'Step 1\nStep 2\nFinished successfully.');
     responseZip.file('out/objectives/overall_objectives.pf', '0.0 1.0\n0.1 0.9');
     
-    const responseZipBuffer = await responseZip.generateAsync({ type: 'nodebuffer' });
+    const responseZipBuffer = await responseZip.generateAsync({ type: 'uint8array' });
 
     globalThis.fetch = async (url, options) => {
       postedUrl = url;
@@ -71,14 +71,14 @@ test('runJob() constructs zip and parses response zip successfully', async () =>
     assert.equal(postedUrl, 'http://my-endpoint/run?script=src%2FSearch.momot');
     assert.equal(postedOptions.method, 'POST');
     assert.equal(postedOptions.headers['Content-Type'], 'application/zip');
-    assert.ok(postedOptions.body instanceof Buffer);
+    assert.ok(postedOptions.body instanceof Uint8Array);
 
     assert.equal(result.exitCode, '0');
     assert.equal(result.diagnostics.mutationBackend, 'stub');
     assert.equal(result.diagnostics.rootCauseHint, 'Execution succeeded.');
     assert.ok(result.outputs['out/objectives/overall_objectives.pf'] instanceof Uint8Array);
     
-    const pfContent = Buffer.from(result.outputs['out/objectives/overall_objectives.pf']).toString('utf8');
+    const pfContent = new TextDecoder().decode(result.outputs['out/objectives/overall_objectives.pf']);
     assert.ok(pfContent.includes('0.0 1.0'));
   } finally {
     globalThis.fetch = originalFetch;
