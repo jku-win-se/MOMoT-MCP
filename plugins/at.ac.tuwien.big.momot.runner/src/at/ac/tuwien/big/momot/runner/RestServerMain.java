@@ -175,16 +175,23 @@ public final class RestServerMain {
                }
             }
 
-            if(mainClass == null || mainClass.trim().isEmpty()) {
-               throw new IOException("Unable to determine main class for execution.");
-            }
+             if(mainClass == null || mainClass.trim().isEmpty()) {
+                throw new IOException("Unable to determine main class for execution.");
+             }
 
-            Files.writeString(requestFile,
-                  "{\"mainClass\":\"" + mainClass + "\",\"jar\":\""
-                        + (jarName == null ? "<compiled-from-script>" : jarName)
-                        + "\",\"script\":\"" + (scriptName == null ? "" : scriptName) + "\"}",
-                  StandardCharsets.UTF_8);
-            exitCode = runProgram(jobDir, workDir, outDir, jarPath, mainClass, logFile, timeoutMs);
+              final String backend = resolveBackend(workDir, scriptName);
+              Files.writeString(requestFile,
+                    "{\"mainClass\":\"" + mainClass + "\",\"jar\":\""
+                          + (jarName == null ? "<compiled-from-script>" : jarName)
+                          + "\",\"script\":\"" + (scriptName == null ? "" : scriptName) 
+                          + "\",\"mutationBackend\":\"" + backend + "\"}",
+                    StandardCharsets.UTF_8);
+
+              if(!isBackendRegistered(backend)) {
+                 throw new IllegalArgumentException("Unknown mutation backend '" + backend + "'. Registered: " + getRegisteredBackends());
+              }
+
+              exitCode = runProgram(jobDir, workDir, outDir, jarPath, mainClass, logFile, timeoutMs, backend);
          } catch(final Exception exception) {
             errorMessage = exception.getMessage();
             final StringWriter stackTraceWriter = new StringWriter();
@@ -207,14 +214,16 @@ public final class RestServerMain {
          }
       }
 
-      private int runProgram(final Path jobDir, final Path workDir, final Path outDir, final Path jarPath, final String mainClass,
-            final Path logFile, final long timeoutMs) throws IOException, InterruptedException {
-         final String javaExecutable = Paths.get(System.getProperty("java.home"), "bin", isWindows() ? "java.exe" : "java").toString();
-         final List<String> command = new ArrayList<>();
-         command.add(javaExecutable);
-         command.add("--add-opens");
-         command.add("java.base/java.util=ALL-UNNAMED");
-         command.add("-cp");
+       private int runProgram(final Path jobDir, final Path workDir, final Path outDir, final Path jarPath, final String mainClass,
+             final Path logFile, final long timeoutMs, final String backend) throws IOException, InterruptedException {
+          final String javaExecutable = Paths.get(System.getProperty("java.home"), "bin", isWindows() ? "java.exe" : "java").toString();
+           final List<String> command = new ArrayList<>();
+           command.add(javaExecutable);
+           command.add("--add-opens");
+           command.add("java.base/java.util=ALL-UNNAMED");
+           command.add("-Xmx2g");
+           command.add("-Dmomot.mutationBackend=" + backend);
+           command.add("-cp");
          command.add(System.getProperty("java.class.path"));
          command.add("at.ac.tuwien.big.momot.runner.RunnerMain");
          command.add("--jar");
@@ -556,6 +565,62 @@ public final class RestServerMain {
                         }
                      }
                   }
-                  """;
+                   """;
     }
+
+   private static String resolveBackend(final Path workDir, final String scriptName) {
+      final Path manifestPath = workDir.resolve("job/manifest.json");
+      if(Files.exists(manifestPath)) {
+         try {
+            final String content = Files.readString(manifestPath, StandardCharsets.UTF_8);
+            final java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("\"mutationBackend\"\\s*:\\s*\"([^\"]+)\"").matcher(content);
+            if(matcher.find()) {
+               return matcher.group(1);
+            }
+         } catch(final Exception ignored) {}
+      }
+      if(scriptName != null) {
+         final Path scriptPath = workDir.resolve(scriptName);
+         if(Files.exists(scriptPath)) {
+            try {
+               final String content = Files.readString(scriptPath, StandardCharsets.UTF_8);
+               final java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("backend\\s*=\\s*\"([^\"]+)\"").matcher(content);
+               if(matcher.find()) {
+                  return matcher.group(1);
+               }
+               final java.util.regex.Matcher matcher2 = java.util.regex.Pattern.compile("backend\\s*=\\s*'([^']+)'").matcher(content);
+               if(matcher2.find()) {
+                  return matcher2.group(1);
+               }
+            } catch(final Exception ignored) {}
+         }
+      }
+      return "henshin";
+   }
+
+   private static boolean isBackendRegistered(final String backend) {
+      try {
+         final Class<?> registryClass = Class.forName("at.ac.tuwien.big.momot.spi.mutation.MutationEngineRegistry");
+         final java.lang.reflect.Method getInstanceMethod = registryClass.getMethod("getInstance");
+         final Object registry = getInstanceMethod.invoke(null);
+         final java.lang.reflect.Method isRegisteredMethod = registryClass.getMethod("isRegistered", String.class);
+         return (Boolean) isRegisteredMethod.invoke(registry, backend);
+      } catch(final Exception e) {
+         return "henshin".equals(backend) || "stub".equals(backend);
+      }
+   }
+
+   private static String getRegisteredBackends() {
+      try {
+         final Class<?> registryClass = Class.forName("at.ac.tuwien.big.momot.spi.mutation.MutationEngineRegistry");
+         final java.lang.reflect.Method getInstanceMethod = registryClass.getMethod("getInstance");
+         final Object registry = getInstanceMethod.invoke(null);
+         final java.lang.reflect.Field factoriesField = registryClass.getDeclaredField("factories");
+         factoriesField.setAccessible(true);
+         final java.util.Map<?, ?> factories = (java.util.Map<?, ?>) factoriesField.get(registry);
+         return factories.keySet().toString();
+      } catch(final Exception e) {
+         return "[henshin, stub]";
+      }
+   }
 }

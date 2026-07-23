@@ -16,6 +16,8 @@
       <unit id="org.eclipse.emf.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.emf.mwe2.language.sdk.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.emf.mwe.core" version="0.0.0"/>
+      <unit id="org.eclipse.emf.mwe.utils" version="0.0.0"/>
       <unit id="org.eclipse.ocl.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.xtext.xbase.feature.group" version="0.0.0"/>

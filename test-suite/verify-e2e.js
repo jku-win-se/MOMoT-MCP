@@ -78,10 +78,11 @@ async function runBenchmark(name, folderName, momotPath, validatorArgs) {
   };
 
   const result = await executeMomotJob({
-    restBaseUrl: 'http://localhost:8080',
+    restBaseUrl: 'http://127.0.0.1:8080',
     scriptPath: momotPath,
     filesBase64,
-    requestTimeoutMs: 240000,
+    requestTimeoutMs: 600000,
+    retries: 0,
     logTailLines: 50
   });
 
@@ -207,6 +208,38 @@ async function main() {
     console.log('\n==================================================');
     console.log('ALL E2E BENCHMARKS T01-T04 VERIFIED & 100% GREEN!');
     console.log('==================================================');
+
+    console.log('\n==================================================');
+    console.log('Automated Check: Unknown Backend Fail-Fast (P3.2)');
+    console.log('==================================================');
+    const filesBase64 = {
+      ...loadFolder(path.join(path.resolve(__dirname, 'T01-stack-balancing'), 'model'), path.resolve(__dirname, 'T01-stack-balancing')),
+      ...loadFolder(path.join(path.resolve(__dirname, 'T01-stack-balancing'), 'src'), path.resolve(__dirname, 'T01-stack-balancing'))
+    };
+    filesBase64["job/manifest.json"] = Buffer.from(JSON.stringify({
+      mutationBackend: "not-a-backend",
+      engineApiVersion: 1
+    })).toString("base64");
+
+    const failResult = await executeMomotJob({
+      restBaseUrl: 'http://127.0.0.1:8080',
+      scriptPath: 'src/at/ac/tuwien/big/momot/examples/stack/StackSearchExample.momot',
+      filesBase64,
+      requestTimeoutMs: 30000,
+      logTailLines: 50
+    });
+
+    console.log(`P3.2 Exit Code: ${failResult.exitCode}`);
+    console.log(`P3.2 Log Tail:\n${failResult.logTail}`);
+
+    if (failResult.success || failResult.exitCode === 0) {
+      throw new Error('[P3.2 Check FAILED] Job with unknown backend succeeded or exit code was 0.');
+    }
+    if (!failResult.logTail || !failResult.logTail.includes('Unknown mutation backend')) {
+      throw new Error('[P3.2 Check FAILED] logTail does not contain expected error message "Unknown mutation backend".');
+    }
+    console.log('[PASS] P3.2 Unknown Backend Fail-Fast check passed successfully.');
+
     process.exit(0);
   } catch (err) {
     console.error(`\nE2E Verification Failed: ${err.message}`);

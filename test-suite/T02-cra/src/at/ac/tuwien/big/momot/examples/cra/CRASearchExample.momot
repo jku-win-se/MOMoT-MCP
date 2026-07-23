@@ -44,26 +44,19 @@ search = {
       solutionRepairer = new TransformationPlaceholderRepairer
    }
 
-   algorithms = {
-      Random  : moea.createRandomSearch()
-      NSGA_II : moea.createNSGAII(
-                  new TournamentSelection(2),
-                  new OnePointCrossover(1.0),
-                  new TransformationPlaceholderMutation(0.15),
-                  new TransformationParameterMutation(0.1, orchestration.moduleManager))
-      NSGA_III: moea.createNSGAIII(
-                  4,
-                  new TournamentSelection(2),
-                  new OnePointCrossover(1.0),
-                  new TransformationPlaceholderMutation(0.15),
-                  new TransformationParameterMutation(0.1, orchestration.moduleManager))
-   }
+    algorithms = {
+       NSGA_II : moea.createNSGAII(
+                   new TournamentSelection(2),
+                   new OnePointCrossover(1.0),
+                   new TransformationPlaceholderMutation(0.15),
+                   new TransformationParameterMutation(0.1, orchestration.moduleManager))
+    }
 }
 
 experiment = {
-   populationSize    = 100
-   maxEvaluations    = 2000
-   nrRuns            = 5
+   populationSize    = 20
+   maxEvaluations    = 100
+   nrRuns            = 1
    progressListeners = [ new SeedRuntimePrintListener ]
 }
 

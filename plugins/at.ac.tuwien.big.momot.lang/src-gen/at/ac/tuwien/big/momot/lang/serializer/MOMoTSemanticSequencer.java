@@ -475,11 +475,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	}
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     AlgorithmList returns AlgorithmList
 	 *
 	 * Constraint:
 	 *     specifications+=AlgorithmSpecification+
+	 * </pre>
 	 */
 	protected void sequence_AlgorithmList(ISerializationContext context, AlgorithmList semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -487,11 +489,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     AlgorithmReferences returns AlgorithmReferences
 	 *
 	 * Constraint:
 	 *     (elements+=[AlgorithmSpecification|ID] elements+=[AlgorithmSpecification|ID]*)?
+	 * </pre>
 	 */
 	protected void sequence_AlgorithmReferences(ISerializationContext context, AlgorithmReferences semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -499,11 +503,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     AlgorithmSpecification returns AlgorithmSpecification
 	 *
 	 * Constraint:
 	 *     (name=ValidID call=XExpression)
+	 * </pre>
 	 */
 	protected void sequence_AlgorithmSpecification(ISerializationContext context, AlgorithmSpecification semanticObject) {
 		if (errorAcceptor != null) {
@@ -520,11 +526,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     AnalysisGroupList returns AnalysisGroupList
 	 *
 	 * Constraint:
 	 *     group+=AnalysisGroupSpecification+
+	 * </pre>
 	 */
 	protected void sequence_AnalysisGroupList(ISerializationContext context, AnalysisGroupList semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -532,11 +540,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     AnalysisGroupSpecification returns AnalysisGroupSpecification
 	 *
 	 * Constraint:
 	 *     (name=ValidID algorithms=AlgorithmReferences)
+	 * </pre>
 	 */
 	protected void sequence_AnalysisGroupSpecification(ISerializationContext context, AnalysisGroupSpecification semanticObject) {
 		if (errorAcceptor != null) {
@@ -553,6 +563,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     AnalysisOrchestration returns AnalysisOrchestration
 	 *
@@ -566,6 +577,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	 *         boxplotCommand=BoxplotCommand | 
 	 *         printCommand=PrintAnalysisCommand
 	 *     )*
+	 * </pre>
 	 */
 	protected void sequence_AnalysisOrchestration(ISerializationContext context, AnalysisOrchestration semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -573,11 +585,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     ArrayLiteral returns XListLiteral
 	 *
 	 * Constraint:
 	 *     (elements+=XExpression elements+=XExpression*)
+	 * </pre>
 	 */
 	protected void sequence_ArrayLiteral(ISerializationContext context, XListLiteral semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -585,12 +599,14 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     AnalysisCommand returns BoxplotCommand
 	 *     BoxplotCommand returns BoxplotCommand
 	 *
 	 * Constraint:
 	 *     directory=XStringLiteral
+	 * </pre>
 	 */
 	protected void sequence_BoxplotCommand(ISerializationContext context, BoxplotCommand semanticObject) {
 		if (errorAcceptor != null) {
@@ -604,6 +620,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     CollectorArray returns CollectorArray
 	 *
@@ -625,6 +642,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	 *         elapsedTime?='elapsedTime' | 
 	 *         populationSize?='populationSize'
 	 *     )*
+	 * </pre>
 	 */
 	protected void sequence_CollectorArray(ISerializationContext context, CollectorArray semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -632,11 +650,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     DefExpression returns DefExpression
 	 *
 	 * Constraint:
 	 *     expression=STRING
+	 * </pre>
 	 */
 	protected void sequence_DefExpression(ISerializationContext context, DefExpression semanticObject) {
 		if (errorAcceptor != null) {
@@ -650,11 +670,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     EqualityHelper returns EqualityHelper
 	 *
 	 * Constraint:
 	 *     (call=XConstructorCall | method=XBlockExpression)
+	 * </pre>
 	 */
 	protected void sequence_EqualityHelper(ISerializationContext context, EqualityHelper semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -662,6 +684,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     ExperimentOrchestration returns ExperimentOrchestration
 	 *
@@ -674,6 +697,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	 *         (progressListeners+=XConstructorCall progressListeners+=XConstructorCall*)? 
 	 *         (collectors=CollectorArray customCollectors+=XConstructorCall customCollectors+=XConstructorCall*)?
 	 *     )
+	 * </pre>
 	 */
 	protected void sequence_ExperimentOrchestration(ISerializationContext context, ExperimentOrchestration semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -681,12 +705,14 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     FitnessDimensionSpecification returns FitnessDimensionConstructor
 	 *     FitnessDimensionConstructor returns FitnessDimensionConstructor
 	 *
 	 * Constraint:
 	 *     (name=ValidID type=FitnessDimensionType call=XConstructorCall)
+	 * </pre>
 	 */
 	protected void sequence_FitnessDimensionConstructor(ISerializationContext context, FitnessDimensionConstructor semanticObject) {
 		if (errorAcceptor != null) {
@@ -706,12 +732,14 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     FitnessDimensionSpecification returns FitnessDimensionOCL
 	 *     FitnessDimensionOCL returns FitnessDimensionOCL
 	 *
 	 * Constraint:
 	 *     (name=ValidID type=FitnessDimensionType query=XStringLiteral defExpressions+=DefExpression*)
+	 * </pre>
 	 */
 	protected void sequence_FitnessDimensionOCL(ISerializationContext context, FitnessDimensionOCL semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -719,12 +747,14 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     FitnessDimensionSpecification returns FitnessDimensionXBase
 	 *     FitnessDimensionXBase returns FitnessDimensionXBase
 	 *
 	 * Constraint:
 	 *     (name=ValidID type=FitnessDimensionType value=XBlockExpression)
+	 * </pre>
 	 */
 	protected void sequence_FitnessDimensionXBase(ISerializationContext context, FitnessDimensionXBase semanticObject) {
 		if (errorAcceptor != null) {
@@ -744,6 +774,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     FitnessFunctionSpecification returns FitnessFunctionSpecification
 	 *
@@ -756,6 +787,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	 *         postprocess=XBlockExpression? 
 	 *         solutionRepairer=XConstructorCall?
 	 *     )
+	 * </pre>
 	 */
 	protected void sequence_FitnessFunctionSpecification(ISerializationContext context, FitnessFunctionSpecification semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -763,6 +795,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     IndicatorArray returns IndicatorArray
 	 *
@@ -779,6 +812,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	 *         r3?='R3' | 
 	 *         maximumParetoFrontError?='maximumParetoFrontError'
 	 *     )*
+	 * </pre>
 	 */
 	protected void sequence_IndicatorArray(ISerializationContext context, IndicatorArray semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -786,11 +820,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     InputModel returns InputModel
 	 *
 	 * Constraint:
 	 *     (path=XExpression adaptation=XBlockExpression?)
+	 * </pre>
 	 */
 	protected void sequence_InputModel(ISerializationContext context, InputModel semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -798,6 +834,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     MOMoTSearch returns MOMoTSearch
 	 *
@@ -814,6 +851,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	 *         resultManagement=ResultManagement? 
 	 *         finalization=XBlockExpression?
 	 *     )
+	 * </pre>
 	 */
 	protected void sequence_MOMoTSearch(ISerializationContext context, MOMoTSearch semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -821,12 +859,14 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     ResultManagementCommand returns ModelsCommand
 	 *     ModelsCommand returns ModelsCommand
 	 *
 	 * Constraint:
 	 *     (algorithms=AlgorithmReferences | neighborhoodSize=INT | maxNeighborhoodSize?='maxNeighborhoodSize' | directory=STRING | printOutput?='printOutput')*
+	 * </pre>
 	 */
 	protected void sequence_ModelsCommand(ISerializationContext context, ModelsCommand semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -834,11 +874,19 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     ModuleOrchestration returns ModuleOrchestration
 	 *
 	 * Constraint:
-	 *     (modules=ArrayLiteral unitsToRemove=ArrayLiteral? nonSolutionParameters=ArrayLiteral? parameterValues+=ParmeterValueSpecification*)
+	 *     (
+	 *         backend=XExpression? 
+	 *         modules=ArrayLiteral 
+	 *         unitsToRemove=ArrayLiteral? 
+	 *         nonSolutionParameters=ArrayLiteral? 
+	 *         parameterValues+=ParmeterValueSpecification*
+	 *     )
+	 * </pre>
 	 */
 	protected void sequence_ModuleOrchestration(ISerializationContext context, ModuleOrchestration semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -846,12 +894,14 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     ResultManagementCommand returns ObjectivesCommand
 	 *     ObjectivesCommand returns ObjectivesCommand
 	 *
 	 * Constraint:
 	 *     (algorithms=AlgorithmReferences | neighborhoodSize=INT | maxNeighborhoodSize?='maxNeighborhoodSize' | file=STRING | printOutput?='printOutput')*
+	 * </pre>
 	 */
 	protected void sequence_ObjectivesCommand(ISerializationContext context, ObjectivesCommand semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -859,11 +909,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     ParmeterValueSpecification returns ParmeterValueSpecification
 	 *
 	 * Constraint:
 	 *     (name=XExpression call=XConstructorCall)
+	 * </pre>
 	 */
 	protected void sequence_ParmeterValueSpecification(ISerializationContext context, ParmeterValueSpecification semanticObject) {
 		if (errorAcceptor != null) {
@@ -880,12 +932,14 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     AnalysisCommand returns PrintAnalysisCommand
 	 *     PrintAnalysisCommand returns PrintAnalysisCommand
 	 *
 	 * Constraint:
 	 *     {PrintAnalysisCommand}
+	 * </pre>
 	 */
 	protected void sequence_PrintAnalysisCommand(ISerializationContext context, PrintAnalysisCommand semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -893,11 +947,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     ResultManagement returns ResultManagement
 	 *
 	 * Constraint:
 	 *     (adaptModels=XBlockExpression? commands+=ResultManagementCommand+)
+	 * </pre>
 	 */
 	protected void sequence_ResultManagement(ISerializationContext context, ResultManagement semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -905,12 +961,14 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     AnalysisCommand returns SaveAnalysisCommand
 	 *     SaveAnalysisCommand returns SaveAnalysisCommand
 	 *
 	 * Constraint:
 	 *     file=XStringLiteral
+	 * </pre>
 	 */
 	protected void sequence_SaveAnalysisCommand(ISerializationContext context, SaveAnalysisCommand semanticObject) {
 		if (errorAcceptor != null) {
@@ -924,6 +982,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     SearchOrchestration returns SearchOrchestration
 	 *
@@ -936,6 +995,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	 *         algorithms=AlgorithmList 
 	 *         equalityHelper=EqualityHelper?
 	 *     )
+	 * </pre>
 	 */
 	protected void sequence_SearchOrchestration(ISerializationContext context, SearchOrchestration semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -943,11 +1003,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     ShowArray returns ShowArray
 	 *
 	 * Constraint:
 	 *     (individual?='individualValues' | aggregate?='aggregateValues' | statisticalSignificance?='statisticalSignificance')*
+	 * </pre>
 	 */
 	protected void sequence_ShowArray(ISerializationContext context, ShowArray semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -955,6 +1017,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     ResultManagementCommand returns SolutionsCommand
 	 *     SolutionsCommand returns SolutionsCommand
@@ -968,6 +1031,7 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	 *         directory=STRING | 
 	 *         printOutput?='printOutput'
 	 *     )*
+	 * </pre>
 	 */
 	protected void sequence_SolutionsCommand(ISerializationContext context, SolutionsCommand semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -975,11 +1039,13 @@ public class MOMoTSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     VariableDeclaration returns VariableDeclaration
 	 *
 	 * Constraint:
 	 *     (type=JvmTypeReference? name=ValidID init=XExpression?)
+	 * </pre>
 	 */
 	protected void sequence_VariableDeclaration(ISerializationContext context, VariableDeclaration semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

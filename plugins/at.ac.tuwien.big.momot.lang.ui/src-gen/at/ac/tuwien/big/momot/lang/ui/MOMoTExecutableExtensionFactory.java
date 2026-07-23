@@ -3,12 +3,11 @@
  */
 package at.ac.tuwien.big.momot.lang.ui;
 
+import at.ac.tuwien.big.momot.lang.ui.internal.LangActivator;
+import com.google.inject.Injector;
 import org.eclipse.xtext.ui.guice.AbstractGuiceAwareExecutableExtensionFactory;
 import org.osgi.framework.Bundle;
-
-import com.google.inject.Injector;
-
-import at.ac.tuwien.big.momot.lang.ui.internal.MOMoTActivator;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  * This class was generated. Customizations should only happen in a newly
@@ -18,12 +17,13 @@ public class MOMoTExecutableExtensionFactory extends AbstractGuiceAwareExecutabl
 
 	@Override
 	protected Bundle getBundle() {
-		return MOMoTActivator.getInstance().getBundle();
+		return FrameworkUtil.getBundle(LangActivator.class);
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return MOMoTActivator.getInstance().getInjector(MOMoTActivator.AT_AC_TUWIEN_BIG_MOMOT_LANG_MOMOT);
+		LangActivator activator = LangActivator.getInstance();
+		return activator != null ? activator.getInjector(LangActivator.AT_AC_TUWIEN_BIG_MOMOT_LANG_MOMOT) : null;
 	}
-	
+
 }

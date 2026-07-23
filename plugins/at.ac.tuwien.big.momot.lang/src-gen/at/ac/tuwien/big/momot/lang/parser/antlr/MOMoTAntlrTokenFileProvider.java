@@ -7,10 +7,10 @@ import java.io.InputStream;
 import org.eclipse.xtext.parser.antlr.IAntlrTokenFileProvider;
 
 public class MOMoTAntlrTokenFileProvider implements IAntlrTokenFileProvider {
-	
+
 	@Override
 	public InputStream getAntlrTokenFile() {
 		ClassLoader classLoader = getClass().getClassLoader();
-    	return classLoader.getResourceAsStream("at/ac/tuwien/big/momot/lang/parser/antlr/internal/InternalMOMoT.tokens");
+		return classLoader.getResourceAsStream("at/ac/tuwien/big/momot/lang/parser/antlr/internal/InternalMOMoT.tokens");
 	}
 }

@@ -27,7 +27,7 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	protected AbstractElementAlias match_ExperimentOrchestration___ProgressListenersKeyword_12_0_OpSingleAssignParserRuleCall_12_1_LeftSquareBracketKeyword_12_2_RightSquareBracketKeyword_12_4__q;
 	protected AbstractElementAlias match_FitnessDimensionOCL___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q;
 	protected AbstractElementAlias match_ModelsCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a;
-	protected AbstractElementAlias match_ModuleOrchestration___ParameterValuesKeyword_6_0_OpSingleAssignParserRuleCall_6_1_LeftCurlyBracketKeyword_6_2_RightCurlyBracketKeyword_6_4__q;
+	protected AbstractElementAlias match_ModuleOrchestration___ParameterValuesKeyword_7_0_OpSingleAssignParserRuleCall_7_1_LeftCurlyBracketKeyword_7_2_RightCurlyBracketKeyword_7_4__q;
 	protected AbstractElementAlias match_ObjectivesCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a;
 	protected AbstractElementAlias match_SolutionsCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a;
 	protected AbstractElementAlias match_XBlockExpression_SemicolonKeyword_2_1_q;
@@ -46,7 +46,7 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 		match_ExperimentOrchestration___ProgressListenersKeyword_12_0_OpSingleAssignParserRuleCall_12_1_LeftSquareBracketKeyword_12_2_RightSquareBracketKeyword_12_4__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getExperimentOrchestrationAccess().getProgressListenersKeyword_12_0()), new TokenAlias(false, false, grammarAccess.getExperimentOrchestrationAccess().getOpSingleAssignParserRuleCall_12_1()), new TokenAlias(false, false, grammarAccess.getExperimentOrchestrationAccess().getLeftSquareBracketKeyword_12_2()), new TokenAlias(false, false, grammarAccess.getExperimentOrchestrationAccess().getRightSquareBracketKeyword_12_4()));
 		match_FitnessDimensionOCL___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getFitnessDimensionOCLAccess().getLeftCurlyBracketKeyword_4_0()), new TokenAlias(false, false, grammarAccess.getFitnessDimensionOCLAccess().getRightCurlyBracketKeyword_4_2()));
 		match_ModelsCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a = new GroupAlias(true, true, new TokenAlias(false, false, grammarAccess.getModelsCommandAccess().getNeighborhoodSizeKeyword_4_1_0_0()), new TokenAlias(false, false, grammarAccess.getModelsCommandAccess().getOpSingleAssignParserRuleCall_4_1_0_1()));
-		match_ModuleOrchestration___ParameterValuesKeyword_6_0_OpSingleAssignParserRuleCall_6_1_LeftCurlyBracketKeyword_6_2_RightCurlyBracketKeyword_6_4__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getModuleOrchestrationAccess().getParameterValuesKeyword_6_0()), new TokenAlias(false, false, grammarAccess.getModuleOrchestrationAccess().getOpSingleAssignParserRuleCall_6_1()), new TokenAlias(false, false, grammarAccess.getModuleOrchestrationAccess().getLeftCurlyBracketKeyword_6_2()), new TokenAlias(false, false, grammarAccess.getModuleOrchestrationAccess().getRightCurlyBracketKeyword_6_4()));
+		match_ModuleOrchestration___ParameterValuesKeyword_7_0_OpSingleAssignParserRuleCall_7_1_LeftCurlyBracketKeyword_7_2_RightCurlyBracketKeyword_7_4__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getModuleOrchestrationAccess().getParameterValuesKeyword_7_0()), new TokenAlias(false, false, grammarAccess.getModuleOrchestrationAccess().getOpSingleAssignParserRuleCall_7_1()), new TokenAlias(false, false, grammarAccess.getModuleOrchestrationAccess().getLeftCurlyBracketKeyword_7_2()), new TokenAlias(false, false, grammarAccess.getModuleOrchestrationAccess().getRightCurlyBracketKeyword_7_4()));
 		match_ObjectivesCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a = new GroupAlias(true, true, new TokenAlias(false, false, grammarAccess.getObjectivesCommandAccess().getNeighborhoodSizeKeyword_4_1_0_0()), new TokenAlias(false, false, grammarAccess.getObjectivesCommandAccess().getOpSingleAssignParserRuleCall_4_1_0_1()));
 		match_SolutionsCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a = new GroupAlias(true, true, new TokenAlias(false, false, grammarAccess.getSolutionsCommandAccess().getNeighborhoodSizeKeyword_4_1_0_0()), new TokenAlias(false, false, grammarAccess.getSolutionsCommandAccess().getOpSingleAssignParserRuleCall_4_1_0_1()));
 		match_XBlockExpression_SemicolonKeyword_2_1_q = new TokenAlias(false, true, grammarAccess.getXBlockExpressionAccess().getSemicolonKeyword_2_1());
@@ -76,7 +76,7 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	protected String getArrayBracketsToken(EObject semanticObject, RuleCall ruleCall, INode node) {
 		if (node != null)
 			return getTokenText(node);
-		return "[]";
+		return "[ ]";
 	}
 	
 	/**
@@ -119,8 +119,8 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 				emit_FitnessDimensionOCL___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ModelsCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a.equals(syntax))
 				emit_ModelsCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_ModuleOrchestration___ParameterValuesKeyword_6_0_OpSingleAssignParserRuleCall_6_1_LeftCurlyBracketKeyword_6_2_RightCurlyBracketKeyword_6_4__q.equals(syntax))
-				emit_ModuleOrchestration___ParameterValuesKeyword_6_0_OpSingleAssignParserRuleCall_6_1_LeftCurlyBracketKeyword_6_2_RightCurlyBracketKeyword_6_4__q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_ModuleOrchestration___ParameterValuesKeyword_7_0_OpSingleAssignParserRuleCall_7_1_LeftCurlyBracketKeyword_7_2_RightCurlyBracketKeyword_7_4__q.equals(syntax))
+				emit_ModuleOrchestration___ParameterValuesKeyword_7_0_OpSingleAssignParserRuleCall_7_1_LeftCurlyBracketKeyword_7_2_RightCurlyBracketKeyword_7_4__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ObjectivesCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a.equals(syntax))
 				emit_ObjectivesCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_SolutionsCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a.equals(syntax))
@@ -142,6 +142,7 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	}
 
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     '}'*
 	 *
@@ -202,12 +203,15 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     significance=XNumberLiteral (ambiguity) boxplotCommand=BoxplotCommand
 	 *     significance=XNumberLiteral (ambiguity) printCommand=PrintAnalysisCommand
 	 *     significance=XNumberLiteral (ambiguity) saveCommand=SaveAnalysisCommand
+	 
+	 * </pre>
 	 */
 	protected void emit_AnalysisOrchestration_RightCurlyBracketKeyword_6_1_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     '}'+
 	 *
@@ -221,12 +225,15 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     printCommand=PrintAnalysisCommand (ambiguity) boxplotCommand=BoxplotCommand
 	 *     printCommand=PrintAnalysisCommand (ambiguity) printCommand=PrintAnalysisCommand
 	 *     printCommand=PrintAnalysisCommand (ambiguity) saveCommand=SaveAnalysisCommand
+	 
+	 * </pre>
 	 */
 	protected void emit_AnalysisOrchestration_RightCurlyBracketKeyword_6_1_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     ('collectors' OpSingleAssign '[' ']')?
 	 *
@@ -234,12 +241,15 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     nrRuns=XNumberLiteral ('progressListeners' OpSingleAssign '[' ']')? (ambiguity) '}' (rule end)
 	 *     progressListeners+=XConstructorCall ']' (ambiguity) '}' (rule end)
 	 *     referenceSet=XExpression ('progressListeners' OpSingleAssign '[' ']')? (ambiguity) '}' (rule end)
+	 
+	 * </pre>
 	 */
 	protected void emit_ExperimentOrchestration___CollectorsKeyword_13_0_OpSingleAssignParserRuleCall_13_1_LeftSquareBracketKeyword_13_2_RightSquareBracketKeyword_13_4__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     ('progressListeners' OpSingleAssign '[' ']')?
 	 *
@@ -248,23 +258,29 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     nrRuns=XNumberLiteral (ambiguity) ('collectors' OpSingleAssign '[' ']')? '}' (rule end)
 	 *     referenceSet=XExpression (ambiguity) 'collectors' OpSingleAssign '[' collectors=CollectorArray
 	 *     referenceSet=XExpression (ambiguity) ('collectors' OpSingleAssign '[' ']')? '}' (rule end)
+	 
+	 * </pre>
 	 */
 	protected void emit_ExperimentOrchestration___ProgressListenersKeyword_12_0_OpSingleAssignParserRuleCall_12_1_LeftSquareBracketKeyword_12_2_RightSquareBracketKeyword_12_4__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     ('{' '}')?
 	 *
 	 * This ambiguous syntax occurs at:
 	 *     query=XStringLiteral (ambiguity) (rule end)
+	 
+	 * </pre>
 	 */
 	protected void emit_FitnessDimensionOCL___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     ('neighborhoodSize' OpSingleAssign)*
 	 *
@@ -305,12 +321,15 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     printOutput?='printOutput' (ambiguity) maxNeighborhoodSize?='maxNeighborhoodSize'
 	 *     printOutput?='printOutput' (ambiguity) neighborhoodSize=INT
 	 *     printOutput?='printOutput' (ambiguity) printOutput?='printOutput'
+	 
+	 * </pre>
 	 */
 	protected void emit_ModelsCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     ('parameterValues' OpSingleAssign '{' '}')?
 	 *
@@ -318,12 +337,15 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     modules=ArrayLiteral (ambiguity) '}' (rule end)
 	 *     nonSolutionParameters=ArrayLiteral (ambiguity) '}' (rule end)
 	 *     unitsToRemove=ArrayLiteral (ambiguity) '}' (rule end)
+	 
+	 * </pre>
 	 */
-	protected void emit_ModuleOrchestration___ParameterValuesKeyword_6_0_OpSingleAssignParserRuleCall_6_1_LeftCurlyBracketKeyword_6_2_RightCurlyBracketKeyword_6_4__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_ModuleOrchestration___ParameterValuesKeyword_7_0_OpSingleAssignParserRuleCall_7_1_LeftCurlyBracketKeyword_7_2_RightCurlyBracketKeyword_7_4__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     ('neighborhoodSize' OpSingleAssign)*
 	 *
@@ -364,12 +386,15 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     printOutput?='printOutput' (ambiguity) maxNeighborhoodSize?='maxNeighborhoodSize'
 	 *     printOutput?='printOutput' (ambiguity) neighborhoodSize=INT
 	 *     printOutput?='printOutput' (ambiguity) printOutput?='printOutput'
+	 
+	 * </pre>
 	 */
 	protected void emit_ObjectivesCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     ('neighborhoodSize' OpSingleAssign)*
 	 *
@@ -423,12 +448,15 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     printOutput?='printOutput' (ambiguity) maxNeighborhoodSize?='maxNeighborhoodSize'
 	 *     printOutput?='printOutput' (ambiguity) neighborhoodSize=INT
 	 *     printOutput?='printOutput' (ambiguity) printOutput?='printOutput'
+	 
+	 * </pre>
 	 */
 	protected void emit_SolutionsCommand___NeighborhoodSizeKeyword_4_1_0_0_OpSingleAssignParserRuleCall_4_1_0_1__a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     ';'?
 	 *
@@ -436,35 +464,44 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     expressions+=XExpressionOrVarDeclaration (ambiguity) '}' ')' (rule end)
 	 *     expressions+=XExpressionOrVarDeclaration (ambiguity) '}' (rule end)
 	 *     expressions+=XExpressionOrVarDeclaration (ambiguity) expressions+=XExpressionOrVarDeclaration
+	 
+	 * </pre>
 	 */
 	protected void emit_XBlockExpression_SemicolonKeyword_2_1_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     ';'?
 	 *
 	 * This ambiguous syntax occurs at:
 	 *     expressions+=XExpressionOrVarDeclaration (ambiguity) (rule end)
 	 *     expressions+=XExpressionOrVarDeclaration (ambiguity) expressions+=XExpressionOrVarDeclaration
+	 
+	 * </pre>
 	 */
 	protected void emit_XExpressionInClosure_SemicolonKeyword_1_1_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     ('(' ')')?
 	 *
 	 * This ambiguous syntax occurs at:
-	 *     (rule start) (ambiguity) '=>' returnType=JvmTypeReference
+	 *     (rule start) (ambiguity) '=&gt;' returnType=JvmTypeReference
+	 
+	 * </pre>
 	 */
 	protected void emit_XFunctionTypeRef___LeftParenthesisKeyword_0_0_RightParenthesisKeyword_0_2__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     ';'?
 	 *
@@ -473,12 +510,15 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     importedType=[JvmDeclaredType|QualifiedName] (ambiguity) (rule end)
 	 *     memberName=ValidID (ambiguity) (rule end)
 	 *     wildcard?='*' (ambiguity) (rule end)
+	 
+	 * </pre>
 	 */
 	protected void emit_XImportDeclaration_SemicolonKeyword_2_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     '('*
 	 *
@@ -487,7 +527,7 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     (rule start) (ambiguity) '#' '[' elements+=XExpression
 	 *     (rule start) (ambiguity) '#' '{' '}' (rule start)
 	 *     (rule start) (ambiguity) '#' '{' elements+=XExpression
-	 *     (rule start) (ambiguity) '<' typeArguments+=JvmArgumentTypeReference
+	 *     (rule start) (ambiguity) '&lt;' typeArguments+=JvmArgumentTypeReference
 	 *     (rule start) (ambiguity) '[' declaredFormalParameters+=JvmFormalParameter
 	 *     (rule start) (ambiguity) '[' explicitSyntax?='|'
 	 *     (rule start) (ambiguity) '[' expression=XExpressionInClosure
@@ -525,12 +565,15 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     (rule start) (ambiguity) {XInstanceOfExpression.expression=}
 	 *     (rule start) (ambiguity) {XMemberFeatureCall.memberCallTarget=}
 	 *     (rule start) (ambiguity) {XPostfixOperation.operand=}
+	 
+	 * </pre>
 	 */
 	protected void emit_XParenthesizedExpression_LeftParenthesisKeyword_0_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
+	 * <pre>
 	 * Ambiguous syntax:
 	 *     '('+
 	 *
@@ -539,7 +582,7 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     (rule start) (ambiguity) '#' '[' elements+=XExpression
 	 *     (rule start) (ambiguity) '#' '{' '}' ')' (rule start)
 	 *     (rule start) (ambiguity) '#' '{' elements+=XExpression
-	 *     (rule start) (ambiguity) '<' typeArguments+=JvmArgumentTypeReference
+	 *     (rule start) (ambiguity) '&lt;' typeArguments+=JvmArgumentTypeReference
 	 *     (rule start) (ambiguity) '[' declaredFormalParameters+=JvmFormalParameter
 	 *     (rule start) (ambiguity) '[' explicitSyntax?='|'
 	 *     (rule start) (ambiguity) '[' expression=XExpressionInClosure
@@ -577,6 +620,8 @@ public class MOMoTSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     (rule start) (ambiguity) {XInstanceOfExpression.expression=}
 	 *     (rule start) (ambiguity) {XMemberFeatureCall.memberCallTarget=}
 	 *     (rule start) (ambiguity) {XPostfixOperation.operand=}
+	 
+	 * </pre>
 	 */
 	protected void emit_XParenthesizedExpression_LeftParenthesisKeyword_0_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);

@@ -3,22 +3,22 @@
  */
 package at.ac.tuwien.big.momot.lang;
 
+import at.ac.tuwien.big.momot.lang.momot.MomotPackage;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.ISetup;
+import org.eclipse.xtext.resource.IResourceFactory;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.xbase.XbaseStandaloneSetup;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
-/**
- * Generated from StandaloneSetup.xpt!
- */
 @SuppressWarnings("all")
 public class MOMoTStandaloneSetupGenerated implements ISetup {
 
 	@Override
 	public Injector createInjectorAndDoEMFRegistration() {
-		org.eclipse.xtext.xbase.XbaseStandaloneSetup.doSetup();
+		XbaseStandaloneSetup.doSetup();
 
 		Injector injector = createInjector();
 		register(injector);
@@ -26,21 +26,17 @@ public class MOMoTStandaloneSetupGenerated implements ISetup {
 	}
 	
 	public Injector createInjector() {
-		return Guice.createInjector(new at.ac.tuwien.big.momot.lang.MOMoTRuntimeModule());
+		return Guice.createInjector(new MOMoTRuntimeModule());
 	}
 	
 	public void register(Injector injector) {
-	if (!EPackage.Registry.INSTANCE.containsKey("http://www.big.tuwien.ac.at/momot/lang/MOMoT")) {
-		EPackage.Registry.INSTANCE.put("http://www.big.tuwien.ac.at/momot/lang/MOMoT", at.ac.tuwien.big.momot.lang.momot.MomotPackage.eINSTANCE);
-	}
-
-		org.eclipse.xtext.resource.IResourceFactory resourceFactory = injector.getInstance(org.eclipse.xtext.resource.IResourceFactory.class);
-		org.eclipse.xtext.resource.IResourceServiceProvider serviceProvider = injector.getInstance(org.eclipse.xtext.resource.IResourceServiceProvider.class);
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("momot", resourceFactory);
-		org.eclipse.xtext.resource.IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put("momot", serviceProvider);
+		if (!EPackage.Registry.INSTANCE.containsKey("http://www.big.tuwien.ac.at/momot/lang/MOMoT")) {
+			EPackage.Registry.INSTANCE.put("http://www.big.tuwien.ac.at/momot/lang/MOMoT", MomotPackage.eINSTANCE);
+		}
+		IResourceFactory resourceFactory = injector.getInstance(IResourceFactory.class);
+		IResourceServiceProvider serviceProvider = injector.getInstance(IResourceServiceProvider.class);
 		
-
-
-
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("momot", resourceFactory);
+		IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put("momot", serviceProvider);
 	}
 }

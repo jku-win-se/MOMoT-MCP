@@ -45,6 +45,19 @@ public class TransformationSearchOrchestration extends AbstractSearchOrchestrati
 
    protected transient MutationOperatorEngine mutationEngine;
    private IEObjectEqualityHelper equalityHelper;
+   protected String mutationBackendId = MutationBackendId.HENSHIN;
+
+   public String getMutationBackendId() {
+      final String sysProp = System.getProperty("momot.mutationBackend");
+      if (sysProp != null && !sysProp.trim().isEmpty()) {
+         return sysProp;
+      }
+      return mutationBackendId;
+   }
+
+   public void setMutationBackendId(final String mutationBackendId) {
+      this.mutationBackendId = mutationBackendId;
+   }
 
    public TransformationSearchOrchestration() {
       super(TransformationSolution.class);
@@ -106,13 +119,13 @@ public class TransformationSearchOrchestration extends AbstractSearchOrchestrati
             }
          }
 
-         final MutationEngineConfig config = new MutationEngineConfig(
-               MutationBackendId.HENSHIN,
-               getModuleManager().getBaseDir(),
-               modulePaths,
-               Collections.emptyList(),
-               null
-         );
+          final MutationEngineConfig config = new MutationEngineConfig(
+                getMutationBackendId(),
+                getModuleManager().getBaseDir(),
+                modulePaths,
+                Collections.emptyList(),
+                null
+          );
          final MutationOperatorEngine engine = registry.create(config.getBackendId());
          if (engine instanceof at.ac.tuwien.big.momot.spi.mutation.henshin.HenshinMutationEngine) {
             ((at.ac.tuwien.big.momot.spi.mutation.henshin.HenshinMutationEngine) engine).setModuleManager(getModuleManager());

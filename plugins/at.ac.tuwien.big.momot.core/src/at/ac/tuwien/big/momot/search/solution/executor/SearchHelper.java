@@ -50,9 +50,8 @@ public class SearchHelper {
       if(nrVariables >= 1) {
          ITransformationVariable var = findUnitApplication(searchGraph);
          while(var != null) {
-            // execute it on the searchGraph
-            final ModelHandle model = new HenshinModelHandle(searchGraph);
-            var.execute(model, getSearchOrchestration().getMutationEngine());
+            // findUnitApplication already applied on searchGraph (pre-SPI execute(false) semantics).
+            // Re-executing re-applies with OUT/INOUT bindings and can spin forever if that fails.
             if(var.isExecuted()) {
                variables.add(var);
             }
@@ -101,8 +100,8 @@ public class SearchHelper {
       if(solutionLength >= 1) {
          ITransformationVariable variable = findUnitApplication(searchGraph);
          while(variable != null) {
-            final ModelHandle model = new HenshinModelHandle(searchGraph);
-            variable.execute(model, getSearchOrchestration().getMutationEngine());
+            // findUnitApplication already applied on searchGraph (pre-SPI execute(false) semantics).
+            // Re-executing re-applies with OUT/INOUT bindings and can spin forever if that fails.
             if(variable.isExecuted()) {
                variables.add(variable);
             }

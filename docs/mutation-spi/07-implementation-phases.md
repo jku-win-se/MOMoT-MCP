@@ -46,9 +46,9 @@ Execute in order. Do not skip parity gates.
 
 ## Phase 3 — DSL / protocol niceties
 
-1. Optional `backend = "henshin"` in `.momot` (default preserved).
-2. Diagnostics echo backend id.
-3. Optional `job/manifest.json`.
+- [x] 1. Optional `backend = "henshin"` in `.momot` (default preserved).
+- [x] 2. Diagnostics echo backend id.
+- [x] 3. Optional `job/manifest.json`.
 
 **Exit:** Old scripts run unchanged; new field documented.
 
