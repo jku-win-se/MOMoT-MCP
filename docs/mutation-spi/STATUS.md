@@ -2,12 +2,12 @@
 
 | Field | Value |
 |---|---|
-| Branch | `feat/mutation-spi-phase6-cloud-surface` |
-| Phase completed | **6 (Slice 1) — EMF.cloud surface scaffolding + isomorphic client** |
-| Next phase | **6 (Slice 2) — Deeper EMF.cloud Model Hub integration** |
+| Branch | `feat/mutation-spi-phase6-slice2-model-hub` |
+| Phase completed | **6 (Slice 2) — Deeper EMF.cloud Model Hub integration (bounded)** |
+| Next phase | **6 (Slice 3) — GLSP UI / Trade-off exploration components** |
 | Production search path | SPI-retargeted (Henshin adapter) |
 | Agent prompt | `agents/prompts/mutation-spi-implement.prompt.md` |
-| Latest commit (phase gate) | `feat(cloud): scaffold cloud packages, results parser, and browser isomorphic engine client (Phase 6 Slice 1)` |
+| Latest commit (phase gate) | `feat(cloud): integrate EMF.cloud Model Hub APIs, HTTP client and result pipeline helper (Phase 6 Slice 2)` |
 
 ## Notes
 
@@ -27,3 +27,9 @@
   - Scaffolded the `cloud/packages/` structure containing `@momot/cloud-engine-client` (re-exports the core client), `@momot/momot-results` (parses `.pf` files and listings), and `@momot/momot-emfcloud-bridge` (stub APIs for Model Hub loading).
   - Scaffolded `cloud/apps/theia-momot-ext` to establish the future extension placeholder.
   - Implemented unit tests for all new cloud packages and verified E2E and MCP compatibility.
+- **Phase 6 Slice 2 (Deeper EMF.cloud Model Hub Integration)**:
+  - Replaced Model Hub loading/listing stubs in `@momot/momot-emfcloud-bridge` with a fully featured, resilient, isomorphic HTTP client.
+  - Implemented `loadOptimizedModel(targetUri, content)` to PUT model content directly to Model Server/Model Hub via REST APIs.
+  - Implemented `listHubModels()` query client, resiliently parsing multiple JSON response dialects to guarantee compatibility with various EMF.cloud server API styles.
+  - Developed the end-to-end `pushJobResultsToHub` helper to scan, filter, and stage all optimization model outputs into the Model Hub/Server automatically.
+  - Created a detailed OpenAPI-ish contract documentation in the package README detailing expected payloads, response formats, and local mock testing vs optional live validation instructions.

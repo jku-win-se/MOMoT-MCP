@@ -75,10 +75,10 @@ Execute in order. Do not skip parity gates.
   - [x] Implement Model Hub loading stubs and interfaces in `momot-emfcloud-bridge`.
   - [x] Validate all unit tests and verify backwards compatibility.
 
-- [ ] **Slice 2: Deeper EMF.cloud Model Hub integration**
-  - [ ] Connect `momot-emfcloud-bridge` to a live EMF.cloud Model Server instance.
-  - [ ] Implement live Model Hub push/pull of input configurations and result Pareto-optimal solution models.
-  - [ ] Scaffold full GLSP UI components for trade-off exploration.
+- [x] **Slice 2: Deeper EMF.cloud Model Hub integration (bounded)**
+  - [x] Connect `momot-emfcloud-bridge` to a live EMF.cloud Model Server instance (isomorphic REST client).
+  - [x] Implement live Model Hub push/pull of input configurations and result Pareto-optimal solution models (via `pushJobResultsToHub` helper).
+  - [ ] Scaffold full GLSP UI components for trade-off exploration (defer to Slice 3 UI).
 
 **Exit:** Isomorphic client and cloud scaffold packages compiled and fully tested; stubs documented.
 
