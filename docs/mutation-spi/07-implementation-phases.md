@@ -61,8 +61,8 @@ Execute in order. Do not skip parity gates.
 
 ## Phase 5 — TypeScript engine client
 
-1. Extract shared client used by MCP.
-2. Document EMF.cloud bridge package layout ([06](06-typescript-cloud-surface.md)).
+- [x] 1. Extract shared client used by MCP.
+- [x] 2. Document EMF.cloud bridge package layout ([06](06-typescript-cloud-surface.md)).
 
 **Exit:** MCP uses shared client; README shows how Theia would call the same API.
 
