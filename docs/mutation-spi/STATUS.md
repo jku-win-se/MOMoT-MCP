@@ -2,12 +2,41 @@
 
 | Field | Value |
 |---|---|
-| Branch | `feat/mutation-spi-phase6-slice3-tradeoff-ui` |
-| Phase completed | **6 (Slice 3) — Trade-off exploration UI scaffolding (bounded)** |
-| Next phase | **Epic wrap-up / Future Enhancements** |
+| Branch | `main` |
+| Phase completed | **Epic complete (Phases 0–5 + Phase 6 Slices 1–3)** |
+| Next phase | **Future enhancements (optional): live EMF.cloud dialect validation, full Theia widget, Henshin GLSP editors, EOL adapter, etc.** |
 | Production search path | SPI-retargeted (Henshin adapter) |
 | Agent prompt | `agents/prompts/mutation-spi-implement.prompt.md` |
-| Latest commit (phase gate) | `feat(cloud): implement isomorphic trade-off plot component, Model Hub selection wiring and Theia skeleton (Phase 6 Slice 3)` |
+| Latest commit (phase gate) | `7508cc0 / PR #7` |
+
+## What Shipped (SPI Epic Summary)
+
+The Mutation Operator SPI and EMF.cloud Surface Scaffolding epic is complete! Here is a summary of the core modules and capabilities delivered across all phases:
+
+- **Java MutationOperator SPI & Adapters:**
+  - Standardized the `MutationOperatorSPI` and `MutationOperatorEngine` contracts.
+  - Retargeted the search orchestration, `TransformationSolution`, and custom mutation operators.
+  - Delivered `HenshinMutationEngine` (default registered adapter), completely isolating Henshin-specific code from MOMoT's core types.
+  - Implemented `StubMutationEngine` and `StubModelHandle` for loading and evaluating standard EMF models completely independent of Henshin.
+- **DSL Backend & Job Diagnostics:**
+  - Extended the `.momot` script DSL syntax and compiler with an optional `backend` configuration.
+  - Enhanced job upload REST APIs with fail-fast validation and registry lookups.
+  - Added priority-based backend resolution from `.momot` scripts and job manifests.
+- **Shared Isomorphic TypeScript Engine Client:**
+  - Created `packages/momot-engine-client` (pure isomorphic TypeScript with zero external build requirements).
+  - Integrates smoothly with browser, Node, and WebWorkers.
+  - Rewrote the MCP server's execution pathways to use this shared package, securing 100% test-suite parity.
+- **EMF.cloud Surface & Workspace Packages (`cloud/packages/`):**
+  - `@momot/cloud-engine-client`: Clean wrapper/re-export of the core client.
+  - `@momot/momot-results`: Robust Pareto-front (`.pf`) parser and listing generator.
+  - `@momot/momot-emfcloud-bridge`: Full isomorphic HTTP client that communicates with EMF.cloud Model Server / Model Hub (providing `loadOptimizedModel`, `listHubModels`, and end-to-end results staging via `pushJobResultsToHub`).
+- **Interactive Trade-off UI (`@momot/momot-tradeoff-ui`):**
+  - Isomorphic, lightweight 2D scatter/trade-off plot rendering using pure SVG.
+  - Multi-objective natural-sorting and related-solution mapping to auto-resolve solution models against the EMF.cloud Model Hub.
+  - Scaffolded the extension contributions inside `cloud/apps/theia-momot-ext` alongside an interactive ESM-powered demo HTML page (`demo-fixture.html`).
+- **End-to-End E2E Validation:**
+  - Comprehensive 3-tier validation (T01–T04 standard benchmarks plus T06-stub-backend benchmark).
+  - Assured backwards compatibility (P3.2 / no-backend defaults), with rigorous tests verifying compile, semantic, and structural aspects.
 
 ## Notes
 

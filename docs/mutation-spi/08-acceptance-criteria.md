@@ -42,4 +42,15 @@
 
 ## Initiative done (SPI epic)
 
-Phases **0–2** complete (3–5 strongly recommended). Phase 6 is a separate product epic.
+The Mutation Operator SPI and EMF.cloud Surface Scaffolding initiative is fully completed through Phase 6 Slice 3! This includes:
+- Core Java SPI and default Henshin adapter (Phases 0–2.1)
+- DSL backend extension & manifest protocols (Phase 3)
+- Independent Stub JVM backend validation (Phase 4)
+- Shared isomorphic TypeScript engine client (Phase 5)
+- EMF.cloud Model Hub isomorphic bridge & Results parser (Phase 6 Slices 1–2)
+- Interactive trade-off SVG-based UI scaffolding & Theia frontend contribution skeleton (Phase 6 Slice 3)
+
+**Out of Scope for this Epic (Future Work):**
+- Full production Theia/GLSP visual editors.
+- Full custom GLSP diagramming widgets beyond the scaffolding.
+- Complete runtime removal of Henshin classpath dependencies.
