@@ -1,6 +1,6 @@
 # Mutation Operator SPI & EMF.cloud Split
 
-> **Status:** Phase 2.1 complete (SPI retargeted; Henshin is default adapter).  
+> **Status:** Epic complete through Phase 6 Slice 3 (SPI + EMF.cloud surface scaffolding).  
 > See [STATUS.md](STATUS.md).
 
 This folder is the **single source of truth** for decoupling MOMoT from Henshin and preparing EMF.cloud integration.
@@ -37,7 +37,7 @@ plugins/at.ac.tuwien.big.momot.core/src/at/ac/tuwien/big/momot/spi/mutation/
 plugins/at.ac.tuwien.big.momot.core/src/at/ac/tuwien/big/momot/spi/mutation/henshin/
 ```
 
-Phase 2 retargeted the search engine onto `MutationOperatorEngine`; Henshin is the default registered adapter. See [STATUS.md](STATUS.md).
+The SPI is fully implemented and retargeted, and the EMF.cloud TS surface has been scaffolded (Epic complete through Phase 6 Slice 3). See [STATUS.md](STATUS.md).
 
 ## Agent entry point
 
