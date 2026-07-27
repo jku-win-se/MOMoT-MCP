@@ -7,13 +7,13 @@
   ],
   "type": "module",
   "dependencies": {
-    "@momot/momot-results": "1.0.0",
-    "@momot/momot-emfcloud-bridge": "1.0.0",
-    "@momot/momot-tradeoff-ui": "1.0.0"
+    "@momot/momot-results": "file:../../packages/momot-results",
+    "@momot/momot-emfcloud-bridge": "file:../../packages/momot-emfcloud-bridge",
+    "@momot/momot-tradeoff-ui": "file:../../packages/momot-tradeoff-ui"
   },
   "theiaExtensions": [
     {
-      "frontend": "./lib/browser/theia-momot-frontend-contribution.js"
+      "frontend": "./theia-momot-frontend-contribution.js"
     }
   ],
   "scripts": {
