@@ -78,9 +78,14 @@ Execute in order. Do not skip parity gates.
 - [x] **Slice 2: Deeper EMF.cloud Model Hub integration (bounded)**
   - [x] Connect `momot-emfcloud-bridge` to a live EMF.cloud Model Server instance (isomorphic REST client).
   - [x] Implement live Model Hub push/pull of input configurations and result Pareto-optimal solution models (via `pushJobResultsToHub` helper).
-  - [ ] Scaffold full GLSP UI components for trade-off exploration (defer to Slice 3 UI).
+  - [x] Scaffold full GLSP UI components for trade-off exploration (defer to Slice 3 UI).
 
-**Exit:** Isomorphic client and cloud scaffold packages compiled and fully tested; stubs documented.
+- [x] **Slice 3: Trade-off exploration UI scaffolding (bounded)**
+  - [x] Implement new package `@momot/momot-tradeoff-ui` with interactive isomorphic 2D SVG trade-off plot.
+  - [x] Wire point selection to Model Hub bridge with smart natural-sorting XMI solution resolution.
+  - [x] Create thin Theia extension frontend contribution skeleton and an interactive story-like demo HTML page.
+
+**Exit:** Isomorphic client, results, bridge, and tradeoff UI packages compiled and fully tested; stubs and extension contribution documented.
 
 ---
 

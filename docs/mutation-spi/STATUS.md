@@ -2,12 +2,12 @@
 
 | Field | Value |
 |---|---|
-| Branch | `feat/mutation-spi-phase6-slice2-model-hub` |
-| Phase completed | **6 (Slice 2) — Deeper EMF.cloud Model Hub integration (bounded)** |
-| Next phase | **6 (Slice 3) — GLSP UI / Trade-off exploration components** |
+| Branch | `feat/mutation-spi-phase6-slice3-tradeoff-ui` |
+| Phase completed | **6 (Slice 3) — Trade-off exploration UI scaffolding (bounded)** |
+| Next phase | **Epic wrap-up / Future Enhancements** |
 | Production search path | SPI-retargeted (Henshin adapter) |
 | Agent prompt | `agents/prompts/mutation-spi-implement.prompt.md` |
-| Latest commit (phase gate) | `feat(cloud): integrate EMF.cloud Model Hub APIs, HTTP client and result pipeline helper (Phase 6 Slice 2)` |
+| Latest commit (phase gate) | `feat(cloud): implement isomorphic trade-off plot component, Model Hub selection wiring and Theia skeleton (Phase 6 Slice 3)` |
 
 ## Notes
 
@@ -33,3 +33,10 @@
   - Implemented `listHubModels()` query client, resiliently parsing multiple JSON response dialects to guarantee compatibility with various EMF.cloud server API styles.
   - Developed the end-to-end `pushJobResultsToHub` helper to scan, filter, and stage all optimization model outputs into the Model Hub/Server automatically.
   - Created a detailed OpenAPI-ish contract documentation in the package README detailing expected payloads, response formats, and local mock testing vs optional live validation instructions.
+- **Phase 6 Slice 3 (Trade-off Exploration UI Scaffolding)**:
+  - Implemented `@momot/momot-tradeoff-ui` to support 2D interactive scatter/trade-off plot rendering using isomorphic SVG generators (`renderToString` / `renderToDom`).
+  - Added robust min/max bounding box calculations and coordinate mapping, including edge cases (division by zero and single-point/identical objective protections).
+  - Wired selection directly to EMF.cloud Model Hub loading (`wireSelectionToHub`) using smart numeric-natural sorting (`resolveRelatedSolutionModel`) to robustly map points to solution `.xmi` files.
+  - Extended `cloud/apps/theia-momot-ext` to define contribution points (commands, views, menus) and detailed host integration documentation.
+  - Provided a highly polished, interactive ESM story-like HTML sandbox widget `demo-fixture.html` to showcase live interactivity and selections without any IDE build complexity.
+  - Achieved 100% pass on all unit tests (10 new tests added) with zero regressions across the codebase.

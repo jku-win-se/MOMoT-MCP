@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOMoT Trade-off Exploration Sandbox</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      margin: 0;
+      padding: 24px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      padding: 24px;
+    }
+    header {
+      border-bottom: 1px solid #eaeef2;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 24px;
+      color: #0c1a30;
+    }
+    p {
+      color: #5c6b80;
+      font-size: 14px;
+      margin: 0;
+    }
+    .layout {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .plot-container {
+      flex: 1;
+      min-width: 400px;
+      border: 1px solid #eaeef2;
+      border-radius: 6px;
+      background: #fafbfc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+    }
+    .details-panel {
+      width: 280px;
+      background: #f8fafc;
+      border: 1px solid #eaeef2;
+      border-radius: 6px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+    h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 16px;
+      color: #0c1a30;
+    }
+    .info-item {
+      margin-bottom: 12px;
+    }
+    .info-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #8898aa;
+      font-weight: 600;
+    }
+    .info-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1e293b;
+      font-family: monospace;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 12px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>MOMoT Trade-off Exploration</h1>
+    <p>Interactive 2D Pareto Front Plot (SVG, isomorphic-friendly). Select a solution point to explore associated model outputs and Model Hub integration.</p>
+  </header>
+
+  <div class="layout">
+    <div id="plot" class="plot-container">
+      <!-- Live SVG Plot Mount Point -->
+    </div>
+
+    <div class="details-panel">
+      <h3>Solution Inspector</h3>
+      
+      <div class="info-item">
+        <div class="info-label">Selected Point Index</div>
+        <div id="val-index" class="info-value">-</div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-label">Objective Coordinates</div>
+        <div id="val-coords" class="info-value">-</div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-label">Resolved Solution XMI File</div>
+        <div id="val-xmi" class="info-value">-</div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-label">Staged Hub URI</div>
+        <div id="val-hub-uri" class="info-value">-</div>
+      </div>
+
+      <div class="info-item" style="margin-top: auto;">
+        <span class="badge">MOMoT-SPI Phase 6 Slice 3</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { MomotTradeoffPlot, resolveRelatedSolutionModel } from './index.js';
+
+  // Mock Job Result & Pareto points (2 objectives)
+  const mockJobResult = {
+    exitCode: '0',
+    logTail: '',
+    outputs: {
+      'out/models/solution_0.xmi': new Uint8Array(),
+      'out/models/solution_1.xmi': new Uint8Array(),
+      'out/models/solution_2.xmi': new Uint8Array(),
+      'out/models/solution_3.xmi': new Uint8Array(),
+      'out/models/solution_4.xmi': new Uint8Array()
+    }
+  };
+
+  const points = [
+    { objectives: [10, 50] }, // index 0
+    { objectives: [6, 60] },  // index 1
+    { objectives: [4, 75] },  // index 2
+    { objectives: [3, 90] },  // index 3
+    { objectives: [1, 120] }  // index 4
+  ];
+
+  // Callback for point selection
+  function handleSelect(point, index) {
+    document.getElementById('val-index').innerText = index;
+    document.getElementById('val-coords').innerText = `[${point.objectives.join(', ')}]`;
+
+    // Resolve associated solution XMI file from Job Result
+    const resolvedXmi = resolveRelatedSolutionModel(index, mockJobResult);
+    document.getElementById('val-xmi').innerText = resolvedXmi || 'None';
+
+    // Target URI for Model Hub staging
+    const filename = resolvedXmi ? resolvedXmi.substring(resolvedXmi.lastIndexOf('/') + 1) : '';
+    document.getElementById('val-hub-uri').innerText = filename ? `hub://models/${filename}` : '-';
+  }
+
+  // Instantiate the plot with options
+  const plot = new MomotTradeoffPlot(points, {
+    width: 500,
+    height: 350,
+    padding: 60,
+    xLabel: 'Makespan (Minimize)',
+    yLabel: 'Solution Length (Minimize)',
+    onSelect: handleSelect,
+    selectedPointIndex: 0
+  });
+
+  // Render to DOM and append to plot container
+  const plotContainer = document.getElementById('plot');
+  const svgNode = plot.renderToDom();
+  if (svgNode) {
+    plotContainer.appendChild(svgNode);
+    // Initialize details with default selected index
+    handleSelect(points[0], 0);
+  } else {
+    plotContainer.innerText = 'Unable to render DOM: browser context missing.';
+  }
+</script>
+
+</body>
+</html>
