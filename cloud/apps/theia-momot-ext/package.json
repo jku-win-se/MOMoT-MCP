@@ -1,0 +1,22 @@
+{
+  "name": "theia-momot-ext",
+  "version": "1.0.0",
+  "description": "Theia/EMF.cloud contribution skeleton for MOMoT optimization and trade-off exploration",
+  "keywords": [
+    "theia-extension"
+  ],
+  "type": "module",
+  "dependencies": {
+    "@momot/momot-results": "file:../../packages/momot-results",
+    "@momot/momot-emfcloud-bridge": "file:../../packages/momot-emfcloud-bridge",
+    "@momot/momot-tradeoff-ui": "file:../../packages/momot-tradeoff-ui"
+  },
+  "theiaExtensions": [
+    {
+      "frontend": "./theia-momot-frontend-contribution.js"
+    }
+  ],
+  "scripts": {
+    "test": "echo 'No tests required for extension skeleton'"
+  }
+}

@@ -21,9 +21,10 @@ cloud/
   packages/
     momot-engine-client/        # Re-exports the isomorphic client (for /health, /run)
     momot-results/              # Parses overall_objectives.pf, lists out/ output artifacts
-    momot-emfcloud-bridge/      # Stubs loadOptimizedModel and Model Hub integration points
+    momot-emfcloud-bridge/      # REST API client for staging optimized solution models on Model Server
+    momot-tradeoff-ui/          # Isomorphic SVG scatter plot & selection-to-Model Hub wiring helper
   apps/
-    theia-momot-ext/            # Optional thin README/skeleton for future extension
+    theia-momot-ext/            # Decoupled Eclipse Theia command/menu contribution skeleton
 ```
 
 ### Browser and WebWorker Isomorphism
@@ -66,6 +67,8 @@ Map onto existing MCP `execute_momot_job` semantics so MCP and EMF.cloud share o
 |---|---|
 | Edit initial model | Model Hub / Model Server (JSON or EMF Java backend). Queryable via `listHubModels()` |
 | Show optimized model | Push output solution models (`.xmi`) via `loadOptimizedModel()` or automate with `pushJobResultsToHub()` result helper |
+| Explore trade-offs | Visualize 2D scatter plot using `@momot/momot-tradeoff-ui`'s `MomotTradeoffPlot` (SVG-based, isomorphic) |
+| Connect selection | Wire point clicks back to Model Hub via `wireSelectionToHub()` using smart natural-sorting matching of XMI files |
 | Author operators | Phase later: textual ops UI; Henshin files as opaque artifacts initially |
 | Undo while searching | **Do not** use Model Server command stack for EA steps |
 
